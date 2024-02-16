@@ -1,3 +1,4 @@
+-- SQLBook: Code
 -- Active: 1708009053742@@127.0.0.1@3306
 
 CREATE TABLE client (
@@ -11,16 +12,18 @@ CREATE TABLE contract (
 );
 
 SHOW COLUMNS FROM contract;
-
+CREATE INDEX idx_client_name ON client (nom_complet);
 
 CREATE TABLE events(
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, contract_id INTEGER NOT NULL, FOREIGN KEY (contract_id) REFERENCES contract (id), client_name VARCHAR(256) NOT NULL, FOREIGN KEY (client_name) REFERENCES client (nom_complet), date_debut DATE NOT NULL, date_fin DATE NOT NULL, contact_support VARCHAR(256), lieu VARCHAR(1024), participants INTEGER, notes VARCHAR(2048) 
 );
 
-INSERT INTO `client` (`nom_complet`,`email`, `telephone`, `nom_entreprise`, `date_de_creation`,`derniere_maj_contact`,`contact_commercial_chez_epic_events`)
-VALUES ('Kevin Casez', 'kevin@startup.io', '+678 123 456 78', 'Cool Startup LLC', '18-04-2021', '29-03-2023', 'Bill Boquet')
+INSERT INTO `client` (`nom_complet`,`email`, `telephone`, `nom_entreprise`, `date_de_creation`,`dernière_maj_contact`,`contact_commercial_chez_epic_events`)
+VALUES ('Kevin Casez', 'kevin@startup.io', '+678 123 456 78', 'Cool Startup LLC', '2021-04-18', '2023-03-29', 'Bill Boquet')
 
+SHOW COLUMNS FROM client;
+SELECT * FROM client;
 
 INSERT INTO `events` (``,``,``,``,``,``)
 
-CREATE USER 'Bill Boquet'@'localhost' IDENTIFIED BY 'billboquet123';
+CREATE USER 'Bill Boquet'@'localhost' IDENTIFIED BY 'Billboquet123.';
