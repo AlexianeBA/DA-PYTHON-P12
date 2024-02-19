@@ -4,7 +4,7 @@
 CREATE TABLE client (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, nom_complet VARCHAR(256) NOT NULL, email VARCHAR(256) NOT NULL, telephone VARCHAR(16), nom_entreprise VARCHAR(256), date_de_creation DATE, dernière_maj_contact DATE NOT NULL, contact_commercial_chez_epic_events VARCHAR(256) NOT NULL
 );
-
+DELETE FROM client WHERE nom_complet="Alexiane Barbe";
 SHOW COLUMNS FROM client;
 INSERT INTO `client` (`nom_complet`,`email`, `telephone`, `nom_entreprise`, `date_de_creation`,`dernière_maj_contact`,`contact_commercial_chez_epic_events`)
 VALUES ('Kevin Casez', 'kevin@startup.io', '+678 123 456 78', 'Cool Startup LLC', '2021-04-18', '2023-03-29', 'Bill Boquet')
