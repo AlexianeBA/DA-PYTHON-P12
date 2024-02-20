@@ -42,7 +42,7 @@ class Contract(Base):
     contact_commercial = Column(String(256), nullable=False)
     montant_total = Column(Integer)
     montant_restant_a_payer = Column(Integer)
-    statut_contrat = Column(Boolean, nullable=False)
+    statut_contrat = Column(String(50), nullable=False)
 
     events = relationship("Events", back_populates="contract")
 

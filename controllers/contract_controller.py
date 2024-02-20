@@ -1,5 +1,6 @@
-from models import Contract
+from models.models import Contract
 from db_config import Session
+from controllers.client_controller import get_client_by_id
 
 
 def create_contract(
@@ -10,6 +11,7 @@ def create_contract(
     montant_restant_a_payer,
     statut_contrat,
 ):
+    client = get_client_by_id(client_id)
     session = Session()
     contract = Contract(
         client_id=client_id,
