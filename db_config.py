@@ -9,3 +9,7 @@ password = os.getenv("PASSWORD")
 
 engine = create_engine(f"mysql://root:{password}@localhost/epicevents")
 Session = sessionmaker(bind=engine)
+
+
+def get_session():
+    return Session()
