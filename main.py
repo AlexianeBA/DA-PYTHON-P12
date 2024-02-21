@@ -3,6 +3,7 @@ from controllers.client_controller import create_client
 from controllers.contract_controller import create_contract
 from controllers.user_controller import authenticate_user
 from controllers.collaborateur_controlleur import create_collaborateur
+from controllers.event_controller import create_event
 from view import (
     display_menu_start,
     get_username,
@@ -14,6 +15,7 @@ from view import (
     display_success_message,
     display_error_message,
     get_role,
+    get_event_details,
 )
 
 
@@ -62,6 +64,15 @@ def main():
                     except Exception as e:
                         display_error_message(
                             f"Erreur lors de l'ajout du contrat : {e}"
+                        )
+                elif action == "3":
+                    event_details = get_event_details()
+                    try:
+                        create_event(*event_details)
+                        display_success_message("Evenement créer avec succès!")
+                    except Exception as e:
+                        display_error_message(
+                            f"Erreur lors de l'ajout de l'évenement: {e}"
                         )
                 elif action == "exit":
                     print("Au revoir !")

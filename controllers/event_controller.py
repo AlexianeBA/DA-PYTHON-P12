@@ -1,4 +1,4 @@
-from models import Event
+from models.models import Events
 from db_config import Session
 
 
@@ -13,7 +13,7 @@ def create_event(
     notes,
 ):
     session = Session()
-    event = Event(
+    event = Events(
         contract_id=contract_id,
         client_name=client_name,
         date_debut=date_debut,
@@ -31,7 +31,7 @@ def create_event(
 
 def update_event(event_id, new_values):
     session = Session()
-    event = session.query(Event).filter_by(id=event_id).first()
+    event = session.query(Events).filter_by(id=event_id).first()
     if event:
         for attr, value in new_values.items():
             setattr(event, attr, value)
@@ -41,7 +41,7 @@ def update_event(event_id, new_values):
 
 def delete_event(event_id):
     session = Session()
-    event = session.query(Event).filter_by(id=event_id).first()
+    event = session.query(Events).filter_by(id=event_id).first()
     if event:
         session.delete(event)
         session.commit()

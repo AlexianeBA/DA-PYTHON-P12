@@ -34,6 +34,7 @@ def display_menu():
     console.print("Que souhaitez-vous faire ?", style="bold green")
     console.print("1. Créer un client")
     console.print("2. Créer un contrat")
+    console.print("3. Créer un évenement")
     console.print("[red]exit[/red]. Quitter")
     return input("Entrez votre choix : ")
 
@@ -75,6 +76,28 @@ def get_contract_details():
         montant_total,
         montant_restant_a_payer,
         statut_contrat,
+    )
+
+
+def get_event_details():
+    contract_id = input("Entrez l'identifiant contrat: ")
+    client_name = input("Entrez le nom du client: ")
+    date_debut = input("Entrez la date du début de l'évènement: ")
+    date_fin = input("Entrez la date de fin de l'évènement: ")
+    contact_support = input("Entrez le nom du contact support: ")
+    lieu = input("Entrez le lieu de l'évenement ")
+    participants = input("Renseignez le nombre de participants ")
+    notes = input("Informations supplémentaires: ")
+
+    return (
+        contract_id,
+        client_name,
+        date_debut,
+        date_fin,
+        contact_support,
+        lieu,
+        participants,
+        notes,
     )
 
 
