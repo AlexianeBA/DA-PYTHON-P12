@@ -1,85 +1,80 @@
-import datetime
 import sys
 from controllers.client_controller import create_client
-from controllers.user_controller import authenticate_user
 from controllers.contract_controller import create_contract
-from db_config import Session
+from controllers.user_controller import authenticate_user
+from controllers.collaborateur_controlleur import create_collaborateur
+from view import (
+    display_menu_start,
+    get_username,
+    get_password,
+    display_welcome_message,
+    display_menu,
+    get_client_details,
+    get_contract_details,
+    display_success_message,
+    display_error_message,
+    get_role,
+)
 
 
 def main():
-    print("Veuillez vous connecter:")
-    nom_utilisateur = input("Nom d'utilisateur : ")
-    password = input("Mot de passe : ")
+    choice = display_menu_start()
+    if choice == "1":
+        nom_utilisateur = get_username()
+        mot_de_passe = get_password()
+        role = get_role()
+        collaborator = create_collaborateur(nom_utilisateur, mot_de_passe, role)
+        if collaborator:
+            display_success_message("Création de compte réussie !")
+            while True:
+                action = input(
+                    "Tapez 'menu' pour afficher le menu ou 'exit' pour quitter: "
+                )
+                if action == "menu":
+                    display_welcome_message()
+                    display_menu()
 
-    user = authenticate_user(nom_utilisateur, password)
-    if user:
-        print("Connexion réussie! Bienvenue,")
-        action = input(
-            "Que souhaitez-vous faire ? Tapez 1 pour créer un client ou 2 pour créer un contrat: ",
-        )
-        if action == "1":
-            nom_complet = input("Entrez le nom complet du client : ")
-            email = input("Entrez l'email du client : ")
-            telephone = input("Entrez le numéro de téléphone du client : ")
-            nom_entreprise = input("Entrez le nom de l'entreprise du client : ")
-            date_de_creation = datetime.date.today()
-            dernière_maj_contact = datetime.date.today()
-            contact_commercial_chez_epic_events = input(
-                "Entrez le nom du contact commercial chez Epic Events : "
-            )
-
-            nouveau_client = create_client(
-                nom_complet=nom_complet,
-                email=email,
-                telephone=telephone,
-                nom_entreprise=nom_entreprise,
-                date_de_creation=date_de_creation,
-                dernière_maj_contact=dernière_maj_contact,
-                contact_commercial_chez_epic_events=contact_commercial_chez_epic_events,
-            )
-
-            with Session() as session:
-                try:
-                    session.add(nouveau_client)
-                    session.commit()
-                    print("Client ajouté avec succès !")
-                except Exception as e:
-                    session.rollback()
-                    print(f"Erreur lors de l'ajout du client : {e}")
-        elif action == "2":
-            client_id = input("Entrez le numéro de l'identifiant du client: ")
-            client = input("Entrez le nom complet du client: ")
-            contact_commercial = input("Entrez votre identifiant: ")
-            montant_total = input("Entrez le montant total en €: ")
-            montant_restant_a_payer = input("Montant restant à payer en €: ")
-            statut_contrat = input(
-                "Renseigner le statut du contrat (en cours ou terminé): "
-            )
-
-            nouveau_contrat = create_contract(
-                client_id=client_id,
-                client=client,
-                contact_commercial=contact_commercial,
-                montant_total=montant_total,
-                montant_restant_a_payer=montant_restant_a_payer,
-                statut_contrat=statut_contrat,
-            )
-
-            with Session() as session:
-                try:
-                    session.add(nouveau_contrat)
-                    session.commit()
-                    print("Contrat créé avec succès !")
-                except Exception as e:
-                    session.rollback()
-                    print(f"Erreur lors de l'ajout du contrat : {e}")
-        elif action == "exit":
-            print("au revoir")
-            sys.exit()
+                elif action == "exit":
+                    print("Au revoir !")
+                    sys.exit()
+                else:
+                    display_error_message("Option non valide. Veuillez réessayer.")
+    elif choice == "2":
+        nom_utilisateur = get_username()
+        password = get_password()
+        user = authenticate_user(nom_utilisateur, password)
+        if user:
+            display_welcome_message()
+            while True:
+                action = display_menu()
+                if action == "1":
+                    client_details = get_client_details()
+                    try:
+                        create_client(*client_details)
+                        display_success_message("Client ajouté avec succès !")
+                    except Exception as e:
+                        display_error_message(f"Erreur lors de l'ajout du client : {e}")
+                elif action == "2":
+                    contract_details = get_contract_details()
+                    try:
+                        create_contract(*contract_details)
+                        display_success_message("Contrat créé avec succès !")
+                    except Exception as e:
+                        display_error_message(
+                            f"Erreur lors de l'ajout du contrat : {e}"
+                        )
+                elif action == "exit":
+                    print("Au revoir !")
+                    sys.exit()
+                else:
+                    display_error_message("Option non valide. Veuillez réessayer.")
         else:
-            print("Option non valide. Veuillez réessayer.")
+            display_error_message("Adresse e-mail ou mot de passe incorrect.")
+    elif choice == "3":
+
+        sys.exit()
     else:
-        print("Adresse e-mail ou mot de passe incorrect.")
+        display_error_message("Option non valide. Veuillez réessayer.")
 
 
 if __name__ == "__main__":

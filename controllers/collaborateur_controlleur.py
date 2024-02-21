@@ -1,4 +1,4 @@
-from models import Collaborateur
+from models.models import Collaborateur
 from db_config import Session
 
 
