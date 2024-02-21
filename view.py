@@ -33,8 +33,11 @@ def display_menu():
     console = Console()
     console.print("Que souhaitez-vous faire ?", style="bold green")
     console.print("1. Créer un client")
-    console.print("2. Créer un contrat")
-    console.print("3. Créer un évenement")
+    console.print("2. Modifier la fiche d'un client")
+    console.print("3. Créer un contrat")
+    console.print("4. Modifier un contrat")
+    console.print("5. Créer un évenement")
+    console.print("2. Modifier un évenement")
     console.print("[red]exit[/red]. Quitter")
     return input("Entrez votre choix : ")
 
@@ -59,6 +62,39 @@ def get_client_details():
         dernière_maj_contact,
         contact_commercial_chez_epic_events,
     )
+
+
+def update_client(client_id, current_values):
+    new_values = {}
+
+    print(
+        "Entrez les nouvelles valeurs pour le client (laissez vide pour conserver les valeurs actuelles) :"
+    )
+    new_values["nom_complet"] = (
+        input(f"Nouveau nom complet du client ({current_values.nom_complet}): ")
+        or current_values.nom_complet
+    )
+    new_values["email"] = (
+        input(f"Nouvel email du client ({current_values.email}): ")
+        or current_values.email
+    )
+    new_values["telephone"] = (
+        input(f"Nouveau numéro de téléphone du client ({current_values.telephone}): ")
+        or current_values.telephone
+    )
+    new_values["nom_entreprise"] = (
+        input(
+            f"Nouveau nom de l'entreprise du client ({current_values.nom_entreprise}): "
+        )
+        or current_values.nom_entreprise
+    )
+    new_values["contact_commercial_chez_epic_events"] = (
+        input(
+            f"Nouveau contact commercial Epic Events ({current_values.contact_commercial_chez_epic_events}):"
+        )
+        or current_values.contact_commercial_chez_epic_events
+    )
+    return new_values
 
 
 def get_contract_details():

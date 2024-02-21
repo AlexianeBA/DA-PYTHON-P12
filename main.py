@@ -1,5 +1,5 @@
 import sys
-from controllers.client_controller import create_client
+from controllers.client_controller import create_client, get_client_by_id
 from controllers.contract_controller import create_contract
 from controllers.user_controller import authenticate_user
 from controllers.collaborateur_controlleur import create_collaborateur
@@ -16,6 +16,7 @@ from view import (
     display_error_message,
     get_role,
     get_event_details,
+    update_client,
 )
 
 
@@ -57,6 +58,24 @@ def main():
                     except Exception as e:
                         display_error_message(f"Erreur lors de l'ajout du client : {e}")
                 elif action == "2":
+                    client_id = input(
+                        "Entrez l'ID du client que vous souhaitez mettre à jour : "
+                    )
+
+                    current_client = get_client_by_id(client_id)
+                    if current_client:
+                        new_values_client = update_client(client_id, current_client)
+                        try:
+                            update_client(client_id, new_values_client)
+                            display_success_message("Client modifié avec succès !")
+                        except:
+                            display_error_message(
+                                f"Erreur lors de la modification du client."
+                            )
+                    else:
+                        display_error_message("Client non trouvé.")
+
+                elif action == "3":
                     contract_details = get_contract_details()
                     try:
                         create_contract(*contract_details)
@@ -65,7 +84,7 @@ def main():
                         display_error_message(
                             f"Erreur lors de l'ajout du contrat : {e}"
                         )
-                elif action == "3":
+                elif action == "5":
                     event_details = get_event_details()
                     try:
                         create_event(*event_details)
