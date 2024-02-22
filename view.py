@@ -33,17 +33,21 @@ def display_menu():
     console = Console()
     console.print("Que souhaitez-vous faire ?", style="bold green")
     console.print("1. Modifier identifiant ou mot de passe")
-    console.print("2. Créer un client")
-    console.print("3. Modifier la fiche d'un client")
-    console.print("4. Créer un contrat")
-    console.print("5. Modifier un contrat")
-    console.print("6. Créer un évenement")
-    console.print("7. Modifier un évenement")
+    console.print("2. Supprimer mon compte collaborateur")
+    console.print("3. Créer un client")
+    console.print("4. Modifier la fiche d'un client")
+    console.print("5. Supprimer la fiche d'un client")
+    console.print("6. Créer un contrat")
+    console.print("7. Modifier un contrat")
+    console.print("8. Supprimer un contrat")
+    console.print("9. Créer un évenement")
+    console.print("10. Modifier un évenement")
+    console.print("11. Supprimer un évenement")
     console.print("[red]exit[/red]. Quitter")
     return input("Entrez votre choix : ")
 
 
-def update_user_view(collaborateur_id, current_values):
+def update_collaborateur_view(collaborateur_id, current_values):
     new_values = {}
 
     print(
@@ -60,6 +64,7 @@ def update_user_view(collaborateur_id, current_values):
     new_values["role"] = (
         input(f"Nouveau rôle ({current_values.role}): ") or current_values.role
     )
+    return new_values
 
 
 def get_client_details():
