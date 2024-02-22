@@ -1,10 +1,16 @@
 import sys
-from controllers.client_controller import create_client, get_client_by_id, update_client
+from controllers.client_controller import (
+    create_client,
+    get_client_by_id,
+    update_client,
+    delete_client,
+)
 
 from controllers.contract_controller import (
     create_contract,
     get_contract_by_id,
     update_contract,
+    delete_contract,
 )
 from controllers.collaborateur_controlleur import (
     create_collaborateur,
@@ -13,7 +19,12 @@ from controllers.collaborateur_controlleur import (
     update_collaborateur,
     delete_collaborateur,
 )
-from controllers.event_controller import create_event, get_event_by_id, update_event
+from controllers.event_controller import (
+    create_event,
+    get_event_by_id,
+    update_event,
+    delete_event,
+)
 from view import (
     display_menu_start,
     get_username,
@@ -126,6 +137,23 @@ def main():
                             )
                     else:
                         display_error_message("Client non trouvé.")
+                elif action == "5":
+                    client_id = input(
+                        "Entrez l'ID du client que vous souhaitez supprimer : "
+                    )
+                    confirm = input(
+                        "Êtes-vous sûr de vouloir supprimer ce client? (oui/non) : "
+                    )
+                    if confirm.lower() == "oui":
+                        try:
+                            delete_client(client_id)
+                            display_success_message("Client supprimé avec succès !")
+                        except:
+                            display_error_message(
+                                "Erreur lors de la suppression du client."
+                            )
+                    else:
+                        display_error_message("Suppression annulée.")
                 elif action == "6":
                     contract_details = get_contract_details()
                     try:
@@ -151,6 +179,23 @@ def main():
                         display_error_message(
                             f"Erreur lors de la modification du contrat."
                         )
+                elif action == "8":
+                    contract_id = input(
+                        "Entrez l'ID du contrat que vous souhaitez supprimer : "
+                    )
+                    confirm = input(
+                        "Êtes-vous sûr de vouloir supprimer ce contrat ? (oui/non) : "
+                    )
+                    if confirm.lower() == "oui":
+                        try:
+                            delete_contract(contract_id)
+                            display_success_message("Contrat supprimé avec succès !")
+                        except:
+                            display_error_message(
+                                "Erreur lors de la suppression du contrat."
+                            )
+                    else:
+                        display_error_message("Suppression annulée.")
                 elif action == "9":
                     event_details = get_event_details()
                     try:
@@ -168,12 +213,29 @@ def main():
                     if current_event:
                         new_values_event = update_event_view(event_id, current_event)
                     try:
-                        update_contract(event_id, new_values_event)
+                        update_event(event_id, new_values_event)
                         display_success_message("Evenement modifié avec succès !")
                     except:
                         display_error_message(
                             f"Erreur lors de la modification de l'evenement."
                         )
+                elif action == "11":
+                    event_id = input(
+                        "Entrez l'ID de l'évenement que vous souhaitez supprimer : "
+                    )
+                    confirm = input(
+                        "Êtes-vous sûr de vouloir supprimer cet évenement ? (oui/non) : "
+                    )
+                    if confirm.lower() == "oui":
+                        try:
+                            delete_event(event_id)
+                            display_success_message("Evenement supprimé avec succès !")
+                        except:
+                            display_error_message(
+                                "Erreur lors de la suppression de l'évenement."
+                            )
+                    else:
+                        display_error_message("Suppression annulée.")
                 elif action == "exit":
                     print("Au revoir !")
                     sys.exit()
