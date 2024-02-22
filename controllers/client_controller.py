@@ -38,8 +38,8 @@ def update_client(client_id, new_values):
     session = Session()
     client = session.query(Client).filter_by(id=client_id).first()
     if client:
-        for attr, value in new_values.items():
-            setattr(client, attr, value)
+        for attr in new_values:
+            setattr(client, attr, new_values[attr])
         session.commit()
     session.close()
 

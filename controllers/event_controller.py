@@ -29,12 +29,19 @@ def create_event(
     return event
 
 
+def get_event_by_id(event_id):
+    session = Session()
+    event = session.query(Events).filter_by(id=event_id).first()
+    session.close()
+    return event
+
+
 def update_event(event_id, new_values):
     session = Session()
     event = session.query(Events).filter_by(id=event_id).first()
     if event:
-        for attr, value in new_values.items():
-            setattr(event, attr, value)
+        for attr in new_values:
+            setattr(event, attr, new_values[attr])
         session.commit()
     session.close()
 

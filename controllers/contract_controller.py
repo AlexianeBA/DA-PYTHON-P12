@@ -27,12 +27,19 @@ def create_contract(
     return contract
 
 
+def get_contract_by_id(contract_id):
+    session = Session()
+    contract = session.query(Contract).filter_by(id=contract_id).first()
+    session.close()
+    return contract
+
+
 def update_contract(contract_id, new_values):
     session = Session()
     contract = session.query(Contract).filter_by(id=contract_id).first()
     if contract:
-        for attr, value in new_values.items():
-            setattr(contract, attr, value)
+        for attr in new_values:
+            setattr(contract, attr, new_values[attr])
         session.commit()
     session.close()
 

@@ -1,9 +1,18 @@
 import sys
-from controllers.client_controller import create_client, get_client_by_id
-from controllers.contract_controller import create_contract
-from controllers.user_controller import authenticate_user
-from controllers.collaborateur_controlleur import create_collaborateur
-from controllers.event_controller import create_event
+from controllers.client_controller import create_client, get_client_by_id, update_client
+
+from controllers.contract_controller import (
+    create_contract,
+    get_contract_by_id,
+    update_contract,
+)
+from controllers.collaborateur_controlleur import (
+    create_collaborateur,
+    authenticate_collaborateur,
+    get_collaborateur_by_id,
+    update_collaborateur,
+)
+from controllers.event_controller import create_event, get_event_by_id, update_event
 from view import (
     display_menu_start,
     get_username,
@@ -16,7 +25,11 @@ from view import (
     display_error_message,
     get_role,
     get_event_details,
-    update_client,
+    update_client_view,
+    update_contract_view,
+    update_event_view,
+    update_user_view,
+    get_user_details,
 )
 
 
@@ -45,28 +58,46 @@ def main():
     elif choice == "2":
         nom_utilisateur = get_username()
         password = get_password()
-        user = authenticate_user(nom_utilisateur, password)
+        user = authenticate_collaborateur(nom_utilisateur, password)
         if user:
             display_welcome_message()
             while True:
                 action = display_menu()
                 if action == "1":
+                    collaborateur_id = input(
+                        "Entrez votre identifiant d'utilisateur : "
+                    )
+                    current_user = get_collaborateur_by_id(collaborateur_id)
+                    if current_user:
+                        new_values = update_user_view(collaborateur_id, current_user)
+                        try:
+                            update_collaborateur(collaborateur_id, new_values)
+                            display_success_message(
+                                "Identifiant utilisateur modifié avec succès !"
+                            )
+                        except:
+                            display_error_message(
+                                "Erreur lors de la modification de l'identifiant utilisateur."
+                            )
+                    else:
+                        display_error_message("Utilisateur non trouvé.")
+                elif action == "2":
                     client_details = get_client_details()
                     try:
                         create_client(*client_details)
                         display_success_message("Client ajouté avec succès !")
                     except Exception as e:
                         display_error_message(f"Erreur lors de l'ajout du client : {e}")
-                elif action == "2":
+                elif action == "3":
                     client_id = input(
                         "Entrez l'ID du client que vous souhaitez mettre à jour : "
                     )
 
                     current_client = get_client_by_id(client_id)
                     if current_client:
-                        new_values_client = update_client(client_id, current_client)
+                        new_values = update_client_view(client_id, current_client)
                         try:
-                            update_client(client_id, new_values_client)
+                            update_client(client_id, new_values)
                             display_success_message("Client modifié avec succès !")
                         except:
                             display_error_message(
@@ -74,8 +105,7 @@ def main():
                             )
                     else:
                         display_error_message("Client non trouvé.")
-
-                elif action == "3":
+                elif action == "4":
                     contract_details = get_contract_details()
                     try:
                         create_contract(*contract_details)
@@ -85,6 +115,22 @@ def main():
                             f"Erreur lors de l'ajout du contrat : {e}"
                         )
                 elif action == "5":
+                    contract_id = input(
+                        "Entrez l'ID du contrat que vous souhaitez mettre à jour :"
+                    )
+                    current_contract = get_contract_by_id(contract_id)
+                    if current_contract:
+                        new_values_contract = update_contract_view(
+                            contract_id, current_contract
+                        )
+                    try:
+                        update_contract(contract_id, new_values_contract)
+                        display_success_message("Contrat modifié avec succès !")
+                    except:
+                        display_error_message(
+                            f"Erreur lors de la modification du contrat."
+                        )
+                elif action == "6":
                     event_details = get_event_details()
                     try:
                         create_event(*event_details)
@@ -92,6 +138,20 @@ def main():
                     except Exception as e:
                         display_error_message(
                             f"Erreur lors de l'ajout de l'évenement: {e}"
+                        )
+                elif action == "7":
+                    event_id = input(
+                        "Entrez l'ID de l'évenement que vous souhaitez mettre à jour :"
+                    )
+                    current_event = get_event_by_id(event_id)
+                    if current_event:
+                        new_values_event = update_event_view(event_id, current_event)
+                    try:
+                        update_contract(event_id, new_values_event)
+                        display_success_message("Evenement modifié avec succès !")
+                    except:
+                        display_error_message(
+                            f"Erreur lors de la modification de l'evenement."
                         )
                 elif action == "exit":
                     print("Au revoir !")
@@ -101,7 +161,6 @@ def main():
         else:
             display_error_message("Adresse e-mail ou mot de passe incorrect.")
     elif choice == "3":
-
         sys.exit()
     else:
         display_error_message("Option non valide. Veuillez réessayer.")

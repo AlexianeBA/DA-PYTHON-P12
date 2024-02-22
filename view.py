@@ -22,7 +22,7 @@ def get_password():
 
 
 def get_role():
-    return input("Rôle: commercial, gestion ou admin")
+    return input("Rôle: commercial, gestion ou support")
 
 
 def display_welcome_message():
@@ -32,14 +32,34 @@ def display_welcome_message():
 def display_menu():
     console = Console()
     console.print("Que souhaitez-vous faire ?", style="bold green")
-    console.print("1. Créer un client")
-    console.print("2. Modifier la fiche d'un client")
-    console.print("3. Créer un contrat")
-    console.print("4. Modifier un contrat")
-    console.print("5. Créer un évenement")
-    console.print("2. Modifier un évenement")
+    console.print("1. Modifier identifiant ou mot de passe")
+    console.print("2. Créer un client")
+    console.print("3. Modifier la fiche d'un client")
+    console.print("4. Créer un contrat")
+    console.print("5. Modifier un contrat")
+    console.print("6. Créer un évenement")
+    console.print("7. Modifier un évenement")
     console.print("[red]exit[/red]. Quitter")
     return input("Entrez votre choix : ")
+
+
+def update_user_view(collaborateur_id, current_values):
+    new_values = {}
+
+    print(
+        "Entrez les nouveaux paramètres de connexion (laissez vide pour conserver les valeurs actuelles) :"
+    )
+    new_values["nom_utilisateur"] = (
+        input(f"Nouveau nom d'utilisateur ({current_values.nom_utilisateur}): ")
+        or current_values.nom_utilisateur
+    )
+    new_values["mot_de_passe"] = (
+        input(f"Nouveau mot de passe ({current_values.mot_de_passe}): ")
+        or current_values.mot_de_passe
+    )
+    new_values["role"] = (
+        input(f"Nouveau rôle ({current_values.role}): ") or current_values.role
+    )
 
 
 def get_client_details():
@@ -64,12 +84,13 @@ def get_client_details():
     )
 
 
-def update_client(client_id, current_values):
+def update_client_view(client_id, current_values):
     new_values = {}
 
     print(
         "Entrez les nouvelles valeurs pour le client (laissez vide pour conserver les valeurs actuelles) :"
     )
+
     new_values["nom_complet"] = (
         input(f"Nouveau nom complet du client ({current_values.nom_complet}): ")
         or current_values.nom_complet
@@ -115,6 +136,38 @@ def get_contract_details():
     )
 
 
+def update_contract_view(contract_id, current_values):
+    new_values = {}
+
+    print(
+        "Entrez les nouvelles valeurs pour le contrat (laissez vide pour conserver les valeurs actuelles) :"
+    )
+
+    new_values["client_id"] = (
+        input(f"Nouvel identifiant du client ({current_values.client_id}): ")
+        or current_values.client_id
+    )
+    new_values["contact_commercial"] = (
+        input(f"Nouveau contact commercial ({current_values.contact_commercial}): ")
+        or current_values.contact_commercial
+    )
+    new_values["montant_total"] = (
+        input(f"Nouveau montant ({current_values.montant_total}): ")
+        or current_values.montant_total
+    )
+    new_values["montant_restant_a_payer"] = (
+        input(
+            f"Nouveau montant restant à payer ({current_values.montant_restant_a_payer}): "
+        )
+        or current_values.montant_restant_a_payer
+    )
+    new_values["statut_contrat"] = (
+        input(f"Nouveau statut du contrat ({current_values.statut_contrat}):")
+        or current_values.statut_contrat
+    )
+    return new_values
+
+
 def get_event_details():
     contract_id = input("Entrez l'identifiant contrat: ")
     client_name = input("Entrez le nom du client: ")
@@ -135,6 +188,46 @@ def get_event_details():
         participants,
         notes,
     )
+
+
+def update_event_view(event_id, current_values):
+    new_values = {}
+
+    print(
+        "Entrez les nouvelles valeurs pour l'évenement (laissez vide pour conserver les valeurs actuelles) :"
+    )
+
+    new_values["contract_id"] = (
+        input(f"Nouvel identifiant du contra ({current_values.contract_id}): ")
+        or current_values.contract_id
+    )
+    new_values["client_name"] = (
+        input(f"Nouveau nom du client ({current_values.client_name}): ")
+        or current_values.client_name
+    )
+    new_values["date_debut"] = (
+        input(f"Nouvelle date de début ({current_values.date_debut}): ")
+        or current_values.date_debut
+    )
+    new_values["date_fin"] = (
+        input(f"Nouvelle date de fin ({current_values.date_fin}): ")
+        or current_values.date_fin
+    )
+    new_values["contact_support"] = (
+        input(f"Nouveau contact support ({current_values.contact_support}):")
+        or current_values.contact_support
+    )
+    new_values["lieu"] = (
+        input(f"Nouveau lieu ({current_values.lieu}):") or current_values.lieu
+    )
+    new_values["participants"] = (
+        input(f"Nouveau nombre de participants ({current_values.participants}):")
+        or current_values.participants
+    )
+    new_values["notes"] = (
+        input(f"Nouvelles notes ({current_values.notes}):") or current_values.notes
+    )
+    return new_values
 
 
 def display_success_message(message):
