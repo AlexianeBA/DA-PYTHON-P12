@@ -1,4 +1,4 @@
-from models.models import Events
+from models.models_event import Events
 from db_config import Session
 
 # TODO: filtrer l'affichage

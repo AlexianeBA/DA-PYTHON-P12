@@ -1,4 +1,4 @@
-from models.models import Contract
+from models.models_contract import Contract
 from db_config import Session
 from controllers.client_controller import get_client_by_id
 
