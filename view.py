@@ -2,6 +2,8 @@ import datetime
 from rich.console import Console
 from rich import print
 from rich.table import Table
+from controllers.collaborateur_controlleur import get_collaborateur_id_connected
+from controllers.contract_controller import get_contracts_filter_by_collaborateur
 
 
 def display_menu_start():
@@ -132,6 +134,7 @@ def get_contract_details():
     client_id = input("Entrez le numéro de l'identifiant du client: ")
     client = input("Entrez le nom complet du client: ")
     contact_commercial = input("Entrez votre identifiant: ")
+    collaborateur_id = input("Entrez votre ID/ ")
     montant_total = input("Entrez le montant total en €: ")
     montant_restant_a_payer = input("Montant restant à payer en €: ")
     statut_contrat = input("Renseigner le statut du contrat (en cours ou terminé): ")
@@ -140,6 +143,7 @@ def get_contract_details():
         client_id,
         client,
         contact_commercial,
+        collaborateur_id,
         montant_total,
         montant_restant_a_payer,
         statut_contrat,
@@ -335,4 +339,28 @@ def display_list_of_events(events):
         )
         table.add_row()
     print("Voici la liste des évenement: ")
+    console.print(table)
+
+
+def display_contracts_of_collaborateur_connected():
+    collaborateur_id = get_collaborateur_id_connected()
+    contracts = get_contracts_filter_by_collaborateur(collaborateur_id)
+    console = Console()
+    table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("ID du contrat")
+    table.add_column("ID du client")
+    table.add_column("Contact commercial")
+    table.add_column("Montant total")
+    table.add_column("Montant restant à payer")
+    table.add_column("Statut du contrat")
+    for contract in contracts:
+        table.add_row(
+            str(contract.id),
+            str(contract.client_id),
+            contract.contact_commercial,
+            str(contract.montant_total),
+            str(contract.montant_restant_a_payer),
+            contract.statut_contrat,
+        )
+    print("Liste de vos contrats: ")
     console.print(table)

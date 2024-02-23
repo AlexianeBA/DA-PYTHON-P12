@@ -50,6 +50,7 @@ from view import (
     display_list_of_collaborateurs,
     display_list_of_contracts,
     display_list_of_events,
+    display_contracts_of_collaborateur_connected,
 )
 
 
@@ -173,6 +174,7 @@ def main():
                             f"Erreur lors de l'ajout du contrat : {e}"
                         )
                 elif action == "7":
+                    display_contracts_of_collaborateur_connected()
                     contract_id = input(
                         "Entrez l'ID du contrat que vous souhaitez mettre à jour :"
                     )

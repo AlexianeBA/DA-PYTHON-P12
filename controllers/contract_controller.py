@@ -1,4 +1,4 @@
-from models.models_contract import Contract
+from models.models import Contract
 from db_config import Session
 from controllers.client_controller import get_client_by_id
 
@@ -53,6 +53,20 @@ def delete_contract(contract_id):
         session.delete(contract)
         session.commit()
     session.close()
+
+
+def get_contracts_filter_by_statut(statut):
+    session = Session()
+    contracts = session.query(Contract).filter(Contract.statut_contrat == statut)
+    session.close()
+    return contracts
+
+
+def get_contracts_filter_by_collaborateur(collaborateur_id):
+    session = Session()
+    contracts = session.query(Contract).filter_by(collaborateur_id=collaborateur_id)
+    session.close()
+    return contracts
 
 
 def get_all_contracts():

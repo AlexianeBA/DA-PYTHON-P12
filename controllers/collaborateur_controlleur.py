@@ -1,4 +1,4 @@
-from models.models_collaborateur import Collaborateur
+from models.models import Collaborateur
 from db_config import Session
 from db_config import get_session
 
@@ -21,14 +21,15 @@ def create_collaborateur(nom_utilisateur, mot_de_passe, role):
 
 def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
     session = get_session()
-    user = (
+    collaborateur = (
         session.query(Collaborateur)
         .filter_by(nom_utilisateur=nom_utilisateur, mot_de_passe=mot_de_passe)
         .first()
     )
     session.close()
-
-    return user
+    if collaborateur:
+        return collaborateur.id
+    return None
 
 
 def get_collaborateur_by_id(collaborateur_id):
@@ -36,6 +37,15 @@ def get_collaborateur_by_id(collaborateur_id):
     collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
     session.close()
     return collaborateur
+
+
+def get_collaborateur_id_connected():
+    session = get_session()
+    collaborateur = session.query(Collaborateur).filter_by(is_connected=True).first()
+    session.close()
+    if collaborateur:
+        return collaborateur.id
+    return None
 
 
 def update_collaborateur(collaborateur_id, new_values):
