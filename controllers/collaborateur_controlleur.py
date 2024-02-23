@@ -2,6 +2,9 @@ from models.models import Collaborateur
 from db_config import Session
 from db_config import get_session
 
+# TODO: créer permissions collaborateurs par rapport à leurs départements
+# TODO
+
 
 def create_collaborateur(nom_utilisateur, mot_de_passe, role):
     session = Session()
@@ -52,3 +55,14 @@ def delete_collaborateur(collaborateur_id):
         session.delete(collaborateur)
         session.commit()
     session.close()
+
+
+# TODO: créer une condition pour ajouter nouveau contact commercial modifi client
+def is_contact_commercial_in_db():
+    pass
+
+
+def get_all_collaborateurs():
+    session = Session()
+    collaborateurs = session.query(Collaborateur).all()
+    return collaborateurs

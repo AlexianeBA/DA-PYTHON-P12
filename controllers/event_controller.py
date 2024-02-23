@@ -1,6 +1,8 @@
 from models.models import Events
 from db_config import Session
 
+# TODO: filtrer l'affichage
+
 
 def create_event(
     contract_id,
@@ -53,3 +55,9 @@ def delete_event(event_id):
         session.delete(event)
         session.commit()
     session.close()
+
+
+def get_all_events():
+    session = Session()
+    events = session.query(Events).all()
+    return events

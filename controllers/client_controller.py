@@ -1,6 +1,9 @@
 from models.models import Client
 from db_config import Session
 
+# TODO: filtrer l'affichage
+#
+
 
 def create_client(
     nom_complet,
@@ -27,14 +30,14 @@ def create_client(
     return client
 
 
-def get_client_by_id(client_id):
+def get_client_by_id(client_id: int) -> Client:
     session = Session()
     client = session.query(Client).filter_by(id=client_id).first()
     session.close()
     return client
 
 
-def update_client(client_id, new_values):
+def update_client(client_id: int, new_values: dict) -> None:
     session = Session()
     client = session.query(Client).filter_by(id=client_id).first()
     if client:
@@ -44,10 +47,27 @@ def update_client(client_id, new_values):
     session.close()
 
 
-def delete_client(client_id):
+def delete_client(client_id: int) -> None:
     session = Session()
     client = session.query(Client).filter_by(id=client_id).first()
     if client:
         session.delete(client)
         session.commit()
     session.close()
+
+
+def get_clients_filtered(nom_complet=None):
+    session = Session()
+    query = session.query(Client)
+
+    if nom_complet:
+        query = query.filter(Client.nom_complet == nom_complet)
+
+    client = query.all()
+    return client
+
+
+def get_all_clients():
+    session = Session()
+    clients = session.query(Client).all()
+    return clients

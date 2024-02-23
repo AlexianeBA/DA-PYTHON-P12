@@ -2,6 +2,8 @@ from models.models import Contract
 from db_config import Session
 from controllers.client_controller import get_client_by_id
 
+# TODO: filtrer l'affichage
+
 
 def create_contract(
     client_id,
@@ -51,3 +53,9 @@ def delete_contract(contract_id):
         session.delete(contract)
         session.commit()
     session.close()
+
+
+def get_all_contracts():
+    session = Session()
+    contracts = session.query(Contract).all()
+    return contracts

@@ -4,6 +4,8 @@ from controllers.client_controller import (
     get_client_by_id,
     update_client,
     delete_client,
+    get_clients_filtered,
+    get_all_clients,
 )
 
 from controllers.contract_controller import (
@@ -11,6 +13,7 @@ from controllers.contract_controller import (
     get_contract_by_id,
     update_contract,
     delete_contract,
+    get_all_contracts,
 )
 from controllers.collaborateur_controlleur import (
     create_collaborateur,
@@ -18,12 +21,14 @@ from controllers.collaborateur_controlleur import (
     get_collaborateur_by_id,
     update_collaborateur,
     delete_collaborateur,
+    get_all_collaborateurs,
 )
 from controllers.event_controller import (
     create_event,
     get_event_by_id,
     update_event,
     delete_event,
+    get_all_events,
 )
 from view import (
     display_menu_start,
@@ -41,6 +46,10 @@ from view import (
     update_contract_view,
     update_event_view,
     update_collaborateur_view,
+    display_list_of_clients,
+    display_list_of_collaborateurs,
+    display_list_of_contracts,
+    display_list_of_events,
 )
 
 
@@ -236,6 +245,18 @@ def main():
                             )
                     else:
                         display_error_message("Suppression annulée.")
+                elif action == "12":
+                    clients = get_all_clients()
+                    display_list_of_clients(clients)
+                elif action == "13":
+                    collaborateurs = get_all_collaborateurs()
+                    display_list_of_collaborateurs(collaborateurs)
+                elif action == "14":
+                    contracts = get_all_contracts()
+                    display_list_of_contracts(contracts)
+                elif action == "15":
+                    events = get_all_events()
+                    display_list_of_events(events)
                 elif action == "exit":
                     print("Au revoir !")
                     sys.exit()

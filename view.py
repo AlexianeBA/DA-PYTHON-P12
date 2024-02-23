@@ -1,6 +1,7 @@
 import datetime
 from rich.console import Console
 from rich import print
+from rich.table import Table
 
 
 def display_menu_start():
@@ -43,6 +44,10 @@ def display_menu():
     console.print("9. Créer un évenement")
     console.print("10. Modifier un évenement")
     console.print("11. Supprimer un évenement")
+    console.print("12. Afficher la liste de tous les clients")
+    console.print("13. Afficher la liste de tous les collaborateurs")
+    console.print("14. Afficher la liste de tous les contrats")
+    console.print("15. Afficher la liste de tous les évenements")
     console.print("[red]exit[/red]. Quitter")
     return input("Entrez votre choix : ")
 
@@ -241,3 +246,93 @@ def display_success_message(message):
 
 def display_error_message(message):
     print(f"Erreur : {message}")
+
+
+def display_list_of_clients(clients):
+    console = Console()
+    table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("ID")
+    table.add_column("Nom complet")
+    table.add_column("Email")
+    table.add_column("Téléphone")
+    table.add_column("Nom de l'entreprise")
+    table.add_column("Date de création")
+    table.add_column("Dernière mise à jour du contact")
+    table.add_column("Contact commercial chez Epic Events")
+
+    for client in clients:
+        table.add_row(
+            str(client.id),
+            client.nom_complet,
+            client.email,
+            client.telephone,
+            client.nom_entreprise,
+            str(client.date_de_creation),
+            str(client.dernière_maj_contact),
+            client.contact_commercial_chez_epic_events,
+        )
+    print("Voici la liste des clients chez Epicevents: ")
+    console.print(table)
+
+
+def display_list_of_collaborateurs(collaborateurs):
+    console = Console()
+    table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("Nom d'utilisateur")
+    table.add_column("Rôle")
+
+    for collaborateur in collaborateurs:
+        table.add_row(
+            collaborateur.nom_utilisateur,
+            collaborateur.role,
+        )
+    print("Voici la liste des collaborateurs chez Epicevents: ")
+    console.print(table)
+
+
+def display_list_of_contracts(contracts):
+    console = Console()
+    table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("ID du client concerné")
+    table.add_column("Nom du contact commercial")
+    table.add_column("Montant total à payer en €")
+    table.add_column("Montant restant à payer en €")
+    table.add_column("Statut du contrat")
+
+    for contract in contracts:
+        table.add_row(
+            str(contract.client_id),
+            contract.contact_commercial,
+            str(contract.montant_total),
+            str(contract.montant_restant_a_payer),
+            contract.statut_contrat,
+        )
+    print("Voici la liste des contrats chez Epicevents: ")
+    console.print(table)
+
+
+def display_list_of_events(events):
+    console = Console()
+    table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("ID du contrat")
+    table.add_column("Nom du client concerné")
+    table.add_column("Date de début de l'évenement")
+    table.add_column("Date de fin de l'évenement")
+    table.add_column("Contact support chez Epicevents")
+    table.add_column("Lieu de l'évenement")
+    table.add_column("Nombre de participants à l'évenement")
+    table.add_column("Notes")
+    for event in events:
+        table.add_row(
+            str(event.contract_id),
+            event.client_name,
+            event.date_debut.strftime("%Y-%m-%d"),
+            event.date_fin.strftime("%Y-%m-%d"),
+            event.contact_support,
+            event.lieu,
+            str(event.participants),
+            event.notes,
+        )
+        table.add_row()
+    print("Voici la liste des évenement: ")
+    console.print(table)

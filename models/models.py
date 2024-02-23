@@ -4,6 +4,9 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+# TODO : découper les models
+# TODO: associer par défaut le commercial lors de la création d'une fiche client
+
 
 class Client(Base):
     __tablename__ = "client"
@@ -19,6 +22,9 @@ class Client(Base):
 
     events = relationship("Events", back_populates="client")
     contract = relationship("Contract", back_populates="client")
+    # contact_commercial_chez_epic_events = relationship(
+    #     "Collaborateur", back_populates="client"
+    # )
 
     def __repr__(self) -> str:
         return (
@@ -56,6 +62,7 @@ class Collaborateur(Base):
     role = Column(String(50), nullable=False)
 
 
+# TODO : établir relation avec collaborateur (contact support)
 class Events(Base):
     __tablename__ = "events"
     id = Column(Integer, primary_key=True)

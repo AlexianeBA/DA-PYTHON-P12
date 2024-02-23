@@ -1,6 +1,10 @@
-permissions collaborateurs suivant l'affiliation au département
+
 hachage mdp
 modifier affiliation département 
 afficher tous les client, events, contracts pour chaque collaborateurs
 implémenter rich ou click (pour le moment j'utilise rich)
 ajouté sentry
+digramme uml
+permettre à tous les collaborateurs de visualiser les contrats clients et évenements en lecture seule
+
+filtrer les évenements par date ou autre 
