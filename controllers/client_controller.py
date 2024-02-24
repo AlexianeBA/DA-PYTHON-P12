@@ -62,12 +62,6 @@ def get_clients_filtered(nom_complet=None):
 
     if nom_complet:
         query = query.filter(Client.nom_complet == nom_complet)
-
+    query = query.order_by(Client.nom_complet)
     client = query.all()
     return client
-
-
-def get_all_clients():
-    session = Session()
-    clients = session.query(Client).all()
-    return clients

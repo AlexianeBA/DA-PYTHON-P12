@@ -46,7 +46,9 @@ def display_menu():
     console.print("9. Créer un évenement")
     console.print("10. Modifier un évenement")
     console.print("11. Supprimer un évenement")
-    console.print("12. Afficher la liste de tous les clients")
+    console.print(
+        "12. Afficher la liste de tous les clients classés par ordre alphabétique"
+    )
     console.print("13. Afficher la liste de tous les collaborateurs")
     console.print("14. Afficher la liste de tous les contrats")
     console.print("15. Afficher la liste de tous les évenements")
@@ -287,6 +289,7 @@ def display_list_of_collaborateurs(collaborateurs):
 
     for collaborateur in collaborateurs:
         table.add_row(
+            str(collaborateur.id),
             collaborateur.nom_utilisateur,
             collaborateur.role,
         )
@@ -307,8 +310,8 @@ def display_list_of_contracts(contracts):
         table.add_row(
             str(contract.client_id),
             contract.contact_commercial,
-            str(contract.montant_total),
-            str(contract.montant_restant_a_payer),
+            f"{str(contract.montant_total)} €",
+            f"{str(contract.montant_restant_a_payer)} €",
             contract.statut_contrat,
         )
     print("Voici la liste des contrats chez Epicevents: ")
@@ -358,8 +361,8 @@ def display_contracts_of_collaborateur_connected():
             str(contract.id),
             str(contract.client_id),
             contract.contact_commercial,
-            str(contract.montant_total),
-            str(contract.montant_restant_a_payer),
+            f"{str(contract.montant_total)} €",
+            f"{str(contract.montant_restant_a_payer)} €",
             contract.statut_contrat,
         )
     print("Liste de vos contrats: ")

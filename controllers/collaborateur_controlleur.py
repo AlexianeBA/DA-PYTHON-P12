@@ -72,7 +72,11 @@ def is_contact_commercial_in_db():
     pass
 
 
-def get_all_collaborateurs():
+def get_all_collaborateurs(nom_utilisateur=None):
     session = Session()
-    collaborateurs = session.query(Collaborateur).all()
+    query = session.query(Collaborateur)
+    if nom_utilisateur:
+        query = query.filter(Collaborateur.nom_utilisateur == nom_utilisateur)
+    query = query.order_by(Collaborateur.nom_utilisateur)
+    collaborateurs = query.all()
     return collaborateurs

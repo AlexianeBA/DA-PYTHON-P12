@@ -5,7 +5,6 @@ from controllers.client_controller import (
     update_client,
     delete_client,
     get_clients_filtered,
-    get_all_clients,
 )
 
 from controllers.contract_controller import (
@@ -248,7 +247,7 @@ def main():
                     else:
                         display_error_message("Suppression annulée.")
                 elif action == "12":
-                    clients = get_all_clients()
+                    clients = get_clients_filtered()
                     display_list_of_clients(clients)
                 elif action == "13":
                     collaborateurs = get_all_collaborateurs()
