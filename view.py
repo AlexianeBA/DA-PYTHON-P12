@@ -348,11 +348,13 @@ def display_list_of_events(events):
 def display_contracts_of_collaborateur_connected():
     collaborateur_id = get_collaborateur_id_connected()
     contracts = get_contracts_filter_by_collaborateur(collaborateur_id)
+    print(collaborateur_id)
     console = Console()
     table = Table(show_header=True, header_style="bold cyan")
     table.add_column("ID du contrat")
     table.add_column("ID du client")
     table.add_column("Contact commercial")
+    table.add_column("ID du commercial")
     table.add_column("Montant total")
     table.add_column("Montant restant à payer")
     table.add_column("Statut du contrat")
@@ -361,6 +363,7 @@ def display_contracts_of_collaborateur_connected():
             str(contract.id),
             str(contract.client_id),
             contract.contact_commercial,
+            str(contract.collaborateur_id),
             f"{str(contract.montant_total)} €",
             f"{str(contract.montant_restant_a_payer)} €",
             contract.statut_contrat,

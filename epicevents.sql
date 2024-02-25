@@ -1,5 +1,5 @@
 -- SQLBook: Code
--- Active: 1708858279887@@127.0.0.1@3306@Epicevents
+-- Active: 1708865429387@@127.0.0.1@3306@epicevents
 
 CREATE TABLE client (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, nom_complet VARCHAR(256) NOT NULL, email VARCHAR(256) NOT NULL, telephone VARCHAR(16), nom_entreprise VARCHAR(256), date_de_creation DATE, dernière_maj_contact DATE NOT NULL, contact_commercial_chez_epic_events VARCHAR(256) NOT NULL
@@ -18,7 +18,7 @@ CREATE TABLE contract (
     montant_restant_a_payer INTEGER, 
     statut_contrat ENUM('en cours', 'terminé') NOT NULL
 );
-
+ALTER TABLE contract ADD COLUMN collaborateur_id INT;
 
 SHOW COLUMNS FROM contract;
 INSERT INTO `contract` (`client_id`,`contact_commercial`,`montant_total`,`montant_restant_a_payer`,`statut_contrat`)

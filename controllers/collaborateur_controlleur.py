@@ -26,11 +26,15 @@ def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
         .filter_by(nom_utilisateur=nom_utilisateur, mot_de_passe=mot_de_passe)
         .first()
     )
-    session.close()
     if collaborateur:
-        return collaborateur.id
-    return None
-
+        collaborateur.is_connected = True  
+        session.commit()  
+        
+        collaborateur_id = collaborateur.id
+    else:
+        collaborateur_id= None
+    session.close()
+    return collaborateur_id
 
 def get_collaborateur_by_id(collaborateur_id):
     session = Session()

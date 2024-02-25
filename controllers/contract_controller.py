@@ -9,6 +9,7 @@ def create_contract(
     client_id,
     client,
     contact_commercial,
+    collaborateur_id,
     montant_total,
     montant_restant_a_payer,
     statut_contrat,
@@ -19,6 +20,7 @@ def create_contract(
         client_id=client_id,
         client=client,
         contact_commercial=contact_commercial,
+        collaborateur_id=collaborateur_id,
         montant_total=montant_total,
         montant_restant_a_payer=montant_restant_a_payer,
         statut_contrat=statut_contrat,
@@ -64,7 +66,7 @@ def get_contracts_filter_by_statut(statut):
 
 def get_contracts_filter_by_collaborateur(collaborateur_id):
     session = Session()
-    contracts = session.query(Contract).filter_by(collaborateur_id=collaborateur_id)
+    contracts = session.query(Contract).filter_by(collaborateur_id=collaborateur_id).all()
     session.close()
     return contracts
 
