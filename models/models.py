@@ -17,9 +17,12 @@ class Client(Base):
     date_de_creation = Column(Date)
     dernière_maj_contact = Column(Date, nullable=True)
     contact_commercial_chez_epic_events = Column(String(256), nullable=False)
+    collaborateur_id = Column(Integer, ForeignKey("collaborateurs.id"))
+
 
     events = relationship("Events", back_populates="client")
     contracts = relationship("Contract", back_populates="client")
+    collaborateur = relationship("Collaborateur", back_populates="client")
 
     def __repr__(self) -> str:
         return (
@@ -30,7 +33,8 @@ class Client(Base):
             f"nom de l'entreprise={self.nom_entreprise!r}, "
             f"date de création={self.date_de_creation!r}, "
             f"dernière mise à jour du contact={self.dernière_maj_contact!r}, "
-            f"contact commercial chez épic events={self.contact_commercial_chez_epic_events!r})"
+            f"contact commercial chez épic events={self.contact_commercial_chez_epic_events!r}"
+            f"id du commercial={self.collaborateur_id!r})"
         )
 
 
@@ -44,6 +48,8 @@ class Collaborateur(Base):
     is_connected = Column(Boolean, default=False)
 
     contracts = relationship("Contract", back_populates="collaborateur")
+    events = relationship("Events", back_populates="collaborateur")
+    client = relationship("Client", back_populates="collaborateur")
 
 
 class Contract(Base):
@@ -67,6 +73,7 @@ class Events(Base):
     id = Column(Integer, primary_key=True)
     contract_id = Column(Integer, ForeignKey("contract.id"), nullable=False)
     client_name = Column(Integer, ForeignKey("client.nom_complet"), nullable=False)
+    collaborateur_id = Column(Integer, ForeignKey("collaborateurs.id"))
     date_debut = Column(Date)
     date_fin = Column(Date)
     contact_support = Column(String(256))
@@ -76,3 +83,4 @@ class Events(Base):
 
     contract = relationship("Contract", back_populates="events")
     client = relationship("Client", back_populates="events")
+    collaborateur = relationship("Collaborateur", back_populates="events")

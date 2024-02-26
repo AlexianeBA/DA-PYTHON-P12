@@ -4,8 +4,8 @@ from rich import print
 from rich.table import Table
 from controllers.collaborateur_controlleur import get_collaborateur_id_connected
 from controllers.contract_controller import get_contracts_filter_by_collaborateur
-
-
+from controllers.event_controller import get_events_filter_by_collaborateur
+from controllers.client_controller import get_clients_filter_by_collaborateur
 def display_menu_start():
     print("Bienvenue!")
     print("Voulez-vous créer un compte ou vous connecter ?")
@@ -49,9 +49,9 @@ def display_menu():
     console.print(
         "12. Afficher la liste de tous les clients classés par ordre alphabétique"
     )
-    console.print("13. Afficher la liste de tous les collaborateurs")
-    console.print("14. Afficher la liste de tous les contrats")
-    console.print("15. Afficher la liste de tous les évenements")
+    console.print("13. Afficher la liste de tous les collaborateurs classés par ordre alphabétique")
+    console.print("14. Afficher la liste de tous les contrats classés par statut")
+    console.print("15. Afficher la liste de tous les évenements classés par date")
     console.print("[red]exit[/red]. Quitter")
     return input("Entrez votre choix : ")
 
@@ -369,4 +369,59 @@ def display_contracts_of_collaborateur_connected():
             contract.statut_contrat,
         )
     print("Liste de vos contrats: ")
+    console.print(table)
+
+
+def display_events_of_collaborateur_connected():
+    collaborateur_id = get_collaborateur_id_connected()
+    events = get_events_filter_by_collaborateur(collaborateur_id)
+    console = Console()
+    table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("ID de l'évenement")
+    table.add_column("Nom complet du client")
+    table.add_column("Date de début de l'évenement")
+    table.add_column("Date de fin de l'évenement")
+    table.add_column("Nom du contact commercial")
+    table.add_column("Lieu de l'évenement")
+    table.add_column("Nombre de participants")
+    table.add_column("Notes")
+    for event in events:
+        table.add_row(
+            str(event.id),
+            str(event.contract_id),
+            datetime(event.date_debut),
+            datetime(event.date_fin),
+            event.contact_support,
+            event.lieu,
+            str(event.participants),
+            event.notes
+        )
+    print("Liste de vos évenements: ")
+    console.print(table)
+
+def display_clients_of_collaborateur_connected():
+    collaborateur_id = get_collaborateur_id_connected()
+    clients = get_clients_filter_by_collaborateur(collaborateur_id)
+    console = Console()
+    table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("Nom complet du client")
+    table.add_column("Adresse email du client")
+    table.add_column("Numéro de téléphone du client")
+    table.add_column("Nom de l'entreprise du client")
+    table.add_column("Date de création de la fiche client")
+    table.add_column("Dernière mise à jour de la fiche client")
+    table.add_column("Nom du contact commercial chez Epicevents")
+    table.add_column("ID du commercial")
+    for client in clients:
+        table.add_row(
+            str(client.id),
+            client.nom_complet,
+            client.email,
+            str(client.telephone),
+            client.nom_complet,
+            datetime(client.date_de_creation),
+            datetime(client.dernière_maj_contact),
+            client.contact_commercial_chez_epic_events,
+        )
+    print("Liste de vos clients: ")
     console.print(table)

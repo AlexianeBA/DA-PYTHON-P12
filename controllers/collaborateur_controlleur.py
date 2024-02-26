@@ -84,3 +84,14 @@ def get_all_collaborateurs(nom_utilisateur=None):
     query = query.order_by(Collaborateur.nom_utilisateur)
     collaborateurs = query.all()
     return collaborateurs
+
+
+def get_collaborateurs_filtered(nom_utilisateur=None):
+    session = Session()
+    query = session.query(Collaborateur)
+
+    if nom_utilisateur:
+        query=query.filter(Collaborateur.nom_utilisateur== nom_utilisateur)
+    query=query.order_by(Collaborateur.nom_utilisateur)
+    collaborateur = query.all()
+    return collaborateur

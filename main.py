@@ -5,6 +5,7 @@ from controllers.client_controller import (
     update_client,
     delete_client,
     get_clients_filtered,
+    
 )
 
 from controllers.contract_controller import (
@@ -13,6 +14,7 @@ from controllers.contract_controller import (
     update_contract,
     delete_contract,
     get_all_contracts,
+    get_contracts_filter_by_statut
 )
 from controllers.collaborateur_controlleur import (
     create_collaborateur,
@@ -21,6 +23,7 @@ from controllers.collaborateur_controlleur import (
     update_collaborateur,
     delete_collaborateur,
     get_all_collaborateurs,
+    get_collaborateurs_filtered
 )
 from controllers.event_controller import (
     create_event,
@@ -28,6 +31,7 @@ from controllers.event_controller import (
     update_event,
     delete_event,
     get_all_events,
+    get_events_filter_by_date
 )
 from view import (
     display_menu_start,
@@ -50,6 +54,8 @@ from view import (
     display_list_of_contracts,
     display_list_of_events,
     display_contracts_of_collaborateur_connected,
+    display_events_of_collaborateur_connected,
+    display_clients_of_collaborateur_connected
 )
 
 
@@ -130,6 +136,7 @@ def main():
                     except Exception as e:
                         display_error_message(f"Erreur lors de l'ajout du client : {e}")
                 elif action == "4":
+                    display_clients_of_collaborateur_connected()
                     client_id = input(
                         "Entrez l'ID du client que vous souhaitez mettre à jour : "
                     )
@@ -216,6 +223,7 @@ def main():
                             f"Erreur lors de l'ajout de l'évenement: {e}"
                         )
                 elif action == "10":
+                    display_events_of_collaborateur_connected()
                     event_id = input(
                         "Entrez l'ID de l'évenement que vous souhaitez mettre à jour :"
                     )
@@ -250,13 +258,13 @@ def main():
                     clients = get_clients_filtered()
                     display_list_of_clients(clients)
                 elif action == "13":
-                    collaborateurs = get_all_collaborateurs()
+                    collaborateurs = get_collaborateurs_filtered()
                     display_list_of_collaborateurs(collaborateurs)
                 elif action == "14":
-                    contracts = get_all_contracts()
+                    contracts = get_contracts_filter_by_statut()
                     display_list_of_contracts(contracts)
                 elif action == "15":
-                    events = get_all_events()
+                    events = get_events_filter_by_date()
                     display_list_of_events(events)
                 elif action == "exit":
                     print("Au revoir !")

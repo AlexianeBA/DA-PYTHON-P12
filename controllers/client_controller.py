@@ -13,6 +13,7 @@ def create_client(
     date_de_creation,
     dernière_maj_contact,
     contact_commercial_chez_epic_events,
+    collaborateur_id,
 ):
     session = Session()
     client = Client(
@@ -23,6 +24,7 @@ def create_client(
         date_de_creation=date_de_creation,
         dernière_maj_contact=dernière_maj_contact,
         contact_commercial_chez_epic_events=contact_commercial_chez_epic_events,
+        collaborateur_id=collaborateur_id
     )
     session.add(client)
     session.commit()
@@ -64,4 +66,9 @@ def get_clients_filtered(nom_complet=None):
         query = query.filter(Client.nom_complet == nom_complet)
     query = query.order_by(Client.nom_complet)
     client = query.all()
+    return client
+
+def get_clients_filter_by_collaborateur(collaborateur_id):
+    session = Session()
+    client = session.query(Client).filter_by(collaborateur_id=collaborateur_id).all()
     return client

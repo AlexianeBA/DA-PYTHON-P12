@@ -7,6 +7,7 @@ from db_config import Session
 def create_event(
     contract_id,
     client_name,
+    collaborateur_id,
     date_debut,
     date_fin,
     contact_support,
@@ -18,6 +19,7 @@ def create_event(
     event = Events(
         contract_id=contract_id,
         client_name=client_name,
+        collaborateur_id=collaborateur_id,
         date_debut=date_debut,
         date_fin=date_fin,
         contact_support=contact_support,
@@ -56,8 +58,23 @@ def delete_event(event_id):
         session.commit()
     session.close()
 
+def get_events_filter_by_collaborateur(collaborateur_id):
+    session = Session()
+    events = session.query(Events).filter_by(collaborateur_id=collaborateur_id).all()
+    return events
+
 
 def get_all_events():
     session = Session()
     events = session.query(Events).all()
     return events
+
+def get_events_filter_by_date(date_debut=None):
+    session = Session()
+    query = session.query(Events)
+
+    if date_debut:
+        query= query.filter(Events.date_debut==date_debut)
+    query = query.order_by(Events.date_debut)
+    event = query.all()
+    return event

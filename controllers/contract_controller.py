@@ -57,7 +57,7 @@ def delete_contract(contract_id):
     session.close()
 
 
-def get_contracts_filter_by_statut(statut):
+def get_contracts_filter_by_statut(statut=None):
     session = Session()
     contracts = session.query(Contract).filter(Contract.statut_contrat == statut)
     session.close()
