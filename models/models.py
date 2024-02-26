@@ -43,7 +43,8 @@ class Collaborateur(Base):
 
     id = Column(Integer, primary_key=True)
     nom_utilisateur = Column(String(256), unique=True, nullable=False)
-    mot_de_passe = Column(String(32), nullable=False)
+    mot_de_passe = Column(String(64), nullable=False)
+    salt = Column(String(16), nullable=False)
     role = Column(String(50), nullable=False)
     is_connected = Column(Boolean, default=False)
 

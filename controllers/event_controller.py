@@ -1,7 +1,6 @@
 from models.models import Events
 from db_config import Session
 
-# TODO: filtrer l'affichage
 
 
 def create_event(

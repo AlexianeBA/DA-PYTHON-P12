@@ -2,7 +2,7 @@ from models.models import Contract
 from db_config import Session
 from controllers.client_controller import get_client_by_id
 
-# TODO: filtrer l'affichage
+
 
 
 def create_contract(

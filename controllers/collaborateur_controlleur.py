@@ -1,16 +1,24 @@
 from models.models import Collaborateur
 from db_config import Session
 from db_config import get_session
+import hashlib
+import secrets
 
 # TODO: créer permissions collaborateurs par rapport à leurs départements
-# TODO
 
+
+def hash_password(password):
+    salt = secrets.token_hex(8)
+    hashed_password = hashlib.sha3_256((password+salt).encode()).hexdigest()
+    return hashed_password, salt
 
 def create_collaborateur(nom_utilisateur, mot_de_passe, role):
     session = Session()
+    hashed_password, salt = hash_password(mot_de_passe)
     collaborateur = Collaborateur(
         nom_utilisateur=nom_utilisateur,
-        mot_de_passe=mot_de_passe,
+        mot_de_passe=hashed_password,
+        salt=salt,
         role=role,
     )
     session.add(collaborateur)
@@ -27,10 +35,11 @@ def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
         .first()
     )
     if collaborateur:
-        collaborateur.is_connected = True  
-        session.commit()  
-        
-        collaborateur_id = collaborateur.id
+        hashed_password = hashlib.sha256((mot_de_passe + collaborateur.salt).encode()).hexdigest()
+        if collaborateur.mot_de_passe == hashed_password:
+            collaborateur.is_connected = True  
+            session.commit()  
+            collaborateur_id = collaborateur.id
     else:
         collaborateur_id= None
     session.close()
@@ -71,9 +80,7 @@ def delete_collaborateur(collaborateur_id):
     session.close()
 
 
-# TODO: créer une condition pour ajouter nouveau contact commercial modifi client
-def is_contact_commercial_in_db():
-    pass
+
 
 
 def get_all_collaborateurs(nom_utilisateur=None):

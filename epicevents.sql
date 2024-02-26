@@ -54,10 +54,14 @@ SELECT * FROM client;
 
 CREATE TABLE collaborateurs(id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, nom_utilisateur VARCHAR(256) NOT NULL UNIQUE, mot_de_passe VARCHAR(32) NOT NULL, role VARCHAR(50) NOT NULL CHECK (role IN ('commercial', 'support', 'gestion')));
 
+ALTER TABLE collaborateurs
+MODIFY COLUMN mot_de_passe VARCHAR(64) NOT NULL;
 SHOW COLUMNS FROM collaborateurs;
 
 ALTER TABLE collaborateurs
 ADD COLUMN is_connected BOOLEAN DEFAULT FALSE;
+ALTER TABLE collaborateurs
+ADD COLUMN salt VARCHAR(16) NOT NULL;
 INSERT INTO `collaborateurs` (`nom_utilisateur`, `mot_de_passe`, `role`)
 VALUES('Bill Boquet', 'Billboquet123.', 'commercial');
 

@@ -1,8 +1,7 @@
 from models.models import Client
 from db_config import Session
 
-# TODO: filtrer l'affichage
-#
+
 
 
 def create_client(
