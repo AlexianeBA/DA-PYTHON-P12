@@ -75,7 +75,7 @@ def main():
                     "Tapez 'menu' pour afficher le menu ou 'exit' pour quitter: "
                 )
                 if action == "menu":
-                    display_welcome_message()
+                    display_welcome_message(nom_utilisateur)
                     display_menu()
 
                 elif action == "exit":
@@ -88,7 +88,7 @@ def main():
         password = get_password()
         user = authenticate_collaborateur(nom_utilisateur, password)
         if user:
-            display_welcome_message()
+            display_welcome_message(nom_utilisateur)
             while True:
                 action = display_menu()
                 if action == "1":
@@ -291,8 +291,6 @@ def main():
                                 )
                         else:
                             display_error_message("Suppression annulée.")
-                    else:
-                        display_error_message("Vous devez être un membre du département support pour supprimer un évenement.")
                 elif action == "12":
                     clients = get_clients_filtered()
                     display_list_of_clients(clients)

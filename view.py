@@ -2,18 +2,23 @@ import datetime
 from rich.console import Console
 from rich import print
 from rich.table import Table
+from rich.prompt import Prompt
 from controllers.collaborateur_controlleur import get_collaborateur_id_connected
 from controllers.contract_controller import get_contracts_filter_by_collaborateur
 from controllers.event_controller import get_events_filter_by_collaborateur
 from controllers.client_controller import get_clients_filter_by_collaborateur
+
+console = Console()
 def display_menu_start():
-    print("Bienvenue!")
-    print("Voulez-vous créer un compte ou vous connecter ?")
-    print("1. Créer un compte")
-    print("2. Se connecter")
-    print("3. Quitter")
-    choice = input("Entrez votre choix: ")
+    console = Console()
+    console.print("Bienvenue!", style="bold green")
+    console.print("Voulez-vous créer un compte ou vous connecter ?")
+    console.print("1. Créer un compte")
+    console.print("2. Se connecter")
+    console.print("3. Quitter")
+    choice = Prompt.ask("Entrez votre choix: ")
     return choice
+
 
 
 def get_username():
@@ -25,16 +30,17 @@ def get_password():
 
 
 def get_role():
-    return input("Rôle: commercial, gestion ou support")
+    return input("Définissez votre rôle: commercial, gestion ou support: ")
 
 
-def display_welcome_message():
-    print("Connexion réussie! Bienvenue,")
+def display_welcome_message(nom_utilisateur):
+    console = Console()
+    console.print(f"Bienvenue,[bold green]{nom_utilisateur}[/bold green]")
 
 
 def display_menu():
-    console = Console()
-    console.print("Que souhaitez-vous faire ?", style="bold green")
+    console.print("Que souhaitez-vous faire ?", style="bold magenta")
+    console.rule(style="bright_yellow")
     console.print("1. Modifier identifiant ou mot de passe")
     console.print("2. Supprimer mon compte collaborateur")
     console.print("3. Créer un client")
@@ -43,17 +49,16 @@ def display_menu():
     console.print("6. Créer un contrat")
     console.print("7. Modifier un contrat")
     console.print("8. Supprimer un contrat")
-    console.print("9. Créer un évenement")
-    console.print("10. Modifier un évenement")
-    console.print("11. Supprimer un évenement")
-    console.print(
-        "12. Afficher la liste de tous les clients classés par ordre alphabétique"
-    )
+    console.print("9. Créer un événement")
+    console.print("10. Modifier un événement")
+    console.print("11. Supprimer un événement")
+    console.print("12. Afficher la liste de tous les clients classés par ordre alphabétique")
     console.print("13. Afficher la liste de tous les collaborateurs classés par ordre alphabétique")
     console.print("14. Afficher la liste de tous les contrats classés par statut")
-    console.print("15. Afficher la liste de tous les évenements classés par date")
-    console.print("[red]exit[/red]. Quitter")
-    return input("Entrez votre choix : ")
+    console.print("15. Afficher la liste de tous les événements classés par date")
+    console.print("[red]exit. Quitter")
+    console.rule(style="bright_yellow")
+    return Prompt.ask("Entrez votre choix ")
 
 
 def update_collaborateur_view(collaborateur_id, current_values):
