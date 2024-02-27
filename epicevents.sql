@@ -49,6 +49,7 @@ SELECT * FROM events;
 SHOW COLUMNS FROM client;
 SELECT * FROM client;
 
+DELETE FROM client WHERE nom_complet="sdd"
 
 
 
@@ -66,3 +67,4 @@ INSERT INTO `collaborateurs` (`nom_utilisateur`, `mot_de_passe`, `role`)
 VALUES('Bill Boquet', 'Billboquet123.', 'commercial');
 
 SELECT * FROM collaborateurs;
+

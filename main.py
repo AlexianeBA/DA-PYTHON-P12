@@ -14,7 +14,7 @@ from controllers.contract_controller import (
     update_contract,
     delete_contract,
     get_all_contracts,
-    get_contracts_filter_by_statut
+    get_contracts_filter_by_price
 )
 from controllers.collaborateur_controlleur import (
     create_collaborateur,
@@ -90,7 +90,7 @@ def main():
         if user:
             display_welcome_message(nom_utilisateur)
             while True:
-                action = display_menu()
+                action = display_menu() 
                 if action == "1":
                     collaborateur_id = input(
                         "Entrez votre identifiant d'utilisateur : "
@@ -298,7 +298,7 @@ def main():
                     collaborateurs = get_collaborateurs_filtered()
                     display_list_of_collaborateurs(collaborateurs)
                 elif action == "14":
-                    contracts = get_contracts_filter_by_statut()
+                    contracts = get_contracts_filter_by_price()
                     display_list_of_contracts(contracts)
                 elif action == "15":
                     events = get_events_filter_by_date()
