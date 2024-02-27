@@ -1,5 +1,6 @@
 from models.models import Client
 from db_config import Session
+from models.models import Collaborateur
 
 
 
@@ -15,20 +16,27 @@ def create_client(
     collaborateur_id,
 ):
     session = Session()
-    client = Client(
-        nom_complet=nom_complet,
-        email=email,
-        telephone=telephone,
-        nom_entreprise=nom_entreprise,
-        date_de_creation=date_de_creation,
-        dernière_maj_contact=dernière_maj_contact,
-        contact_commercial_chez_epic_events=contact_commercial_chez_epic_events,
-        collaborateur_id=collaborateur_id
-    )
-    session.add(client)
-    session.commit()
-    session.close()
-    return client
+    collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
+    
+    if collaborateur:
+        if collaborateur.role == 'commercial':
+
+            client = Client(
+                nom_complet=nom_complet,
+                email=email,
+                telephone=telephone,
+                nom_entreprise=nom_entreprise,
+                date_de_creation=date_de_creation,
+                dernière_maj_contact=dernière_maj_contact,
+                contact_commercial_chez_epic_events=contact_commercial_chez_epic_events,
+                collaborateur_id=collaborateur_id
+            )
+            session.add(client)
+            session.commit()
+            session.close()
+            return client
+    else:
+        raise ValueError("Seuls les collaborateurs avec le rôle 'commercial' sont autorisés à créer un client.")
 
 
 def get_client_by_id(client_id: int) -> Client:

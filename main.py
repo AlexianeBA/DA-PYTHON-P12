@@ -23,7 +23,9 @@ from controllers.collaborateur_controlleur import (
     update_collaborateur,
     delete_collaborateur,
     get_all_collaborateurs,
-    get_collaborateurs_filtered
+    get_collaborateurs_filtered,
+    get_collaborateur_id_connected,
+    disconnection_collaborateur
 )
 from controllers.event_controller import (
     create_event,
@@ -129,131 +131,168 @@ def main():
                     else:
                         display_error_message("Suppression annulée.")
                 elif action == "3":
-                    client_details = get_client_details()
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    
                     try:
-                        create_client(*client_details)
-                        display_success_message("Client ajouté avec succès !")
-                    except Exception as e:
-                        display_error_message(f"Erreur lors de l'ajout du client : {e}")
+                        if collaborateur_id and collaborateur_role == 'commercial':
+                            client_details = get_client_details()
+                            create_client(*client_details, collaborateur_id=collaborateur_id)
+                            display_success_message("Client ajouté avec succès !")
+                        else:
+                            print("Vous n'avez pas les droits pour créer une fiche client.")
+                    except:
+                        display_error_message(f"Erreur lors de l'ajout du client.")
                 elif action == "4":
-                    display_clients_of_collaborateur_connected()
-                    client_id = input(
-                        "Entrez l'ID du client que vous souhaitez mettre à jour : "
-                    )
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    if collaborateur_role == "commercial":
+                        display_clients_of_collaborateur_connected()
+                        client_id = input(
+                            "Entrez l'ID du client que vous souhaitez mettre à jour : "
+                        )
 
-                    current_client = get_client_by_id(client_id)
-                    if current_client:
-                        new_values = update_client_view(client_id, current_client)
-                        try:
-                            update_client(client_id, new_values)
-                            display_success_message("Client modifié avec succès !")
-                        except:
-                            display_error_message(
-                                f"Erreur lors de la modification du client."
-                            )
+                        current_client = get_client_by_id(client_id)
+                        if current_client:
+                            new_values = update_client_view(client_id, current_client)
+                            try:
+                                update_client(client_id, new_values)
+                                display_success_message("Client modifié avec succès !")
+                            except:
+                                display_error_message(
+                                    f"Erreur lors de la modification du client."
+                                )
+                        else:
+                            display_error_message("Client non trouvé.")
                     else:
-                        display_error_message("Client non trouvé.")
+                        display_error_message("Vous devez être un commercial pour modifier un client.")
                 elif action == "5":
-                    client_id = input(
-                        "Entrez l'ID du client que vous souhaitez supprimer : "
-                    )
-                    confirm = input(
-                        "Êtes-vous sûr de vouloir supprimer ce client? (oui/non) : "
-                    )
-                    if confirm.lower() == "oui":
-                        try:
-                            delete_client(client_id)
-                            display_success_message("Client supprimé avec succès !")
-                        except:
-                            display_error_message(
-                                "Erreur lors de la suppression du client."
-                            )
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    if collaborateur_role == "commercial":
+                        client_id = input(
+                            "Entrez l'ID du client que vous souhaitez supprimer : "
+                        )
+                        confirm = input(
+                            "Êtes-vous sûr de vouloir supprimer ce client? (oui/non) : "
+                        )
+                        if confirm.lower() == "oui":
+                            try:
+                                delete_client(client_id)
+                                display_success_message("Client supprimé avec succès !")
+                            except:
+                                display_error_message(
+                                    "Erreur lors de la suppression du client."
+                                )
+                        else:
+                            display_error_message("Suppression annulée.")
                     else:
-                        display_error_message("Suppression annulée.")
+                        display_error_message("Vous devez être un commercial pour supprimer un client.")
                 elif action == "6":
-                    contract_details = get_contract_details()
-                    try:
-                        create_contract(*contract_details)
-                        display_success_message("Contrat créé avec succès !")
-                    except Exception as e:
-                        display_error_message(
-                            f"Erreur lors de l'ajout du contrat : {e}"
-                        )
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    if collaborateur_role == "gestion":
+                        contract_details = get_contract_details()
+                        try:
+                            create_contract(*contract_details)
+                            display_success_message("Contrat créé avec succès !")
+                        except Exception as e:
+                            display_error_message(
+                                f"Erreur lors de l'ajout du contrat : {e}"
+                            )
+                    else:
+                        display_error_message("Vous devez être un gestionnaire pour créer un contrat.")
                 elif action == "7":
-                    display_contracts_of_collaborateur_connected()
-                    contract_id = input(
-                        "Entrez l'ID du contrat que vous souhaitez mettre à jour :"
-                    )
-                    current_contract = get_contract_by_id(contract_id)
-                    if current_contract:
-                        new_values_contract = update_contract_view(
-                            contract_id, current_contract
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    if collaborateur_role == "gestion" or "commercial":
+                        display_contracts_of_collaborateur_connected()
+                        contract_id = input(
+                            "Entrez l'ID du contrat que vous souhaitez mettre à jour :"
                         )
-                    try:
-                        update_contract(contract_id, new_values_contract)
-                        display_success_message("Contrat modifié avec succès !")
-                    except:
-                        display_error_message(
-                            f"Erreur lors de la modification du contrat."
-                        )
+                        current_contract = get_contract_by_id(contract_id)
+                        if current_contract:
+                            new_values_contract = update_contract_view(
+                                contract_id, current_contract
+                            )
+                        try:
+                            update_contract(contract_id, new_values_contract)
+                            display_success_message("Contrat modifié avec succès !")
+                        except:
+                            display_error_message(
+                                f"Erreur lors de la modification du contrat."
+                            )
+                    else:
+                        display_error_message("Vous devez être un gestionnaire ou un commercial pour modifier un contrat.")
                 elif action == "8":
-                    contract_id = input(
-                        "Entrez l'ID du contrat que vous souhaitez supprimer : "
-                    )
-                    confirm = input(
-                        "Êtes-vous sûr de vouloir supprimer ce contrat ? (oui/non) : "
-                    )
-                    if confirm.lower() == "oui":
-                        try:
-                            delete_contract(contract_id)
-                            display_success_message("Contrat supprimé avec succès !")
-                        except:
-                            display_error_message(
-                                "Erreur lors de la suppression du contrat."
-                            )
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    if collaborateur_role == "gestion":
+                        contract_id = input(
+                            "Entrez l'ID du contrat que vous souhaitez supprimer : "
+                        )
+                        confirm = input(
+                            "Êtes-vous sûr de vouloir supprimer ce contrat ? (oui/non) : "
+                        )
+                        if confirm.lower() == "oui":
+                            try:
+                                delete_contract(contract_id)
+                                display_success_message("Contrat supprimé avec succès !")
+                            except:
+                                display_error_message(
+                                    "Erreur lors de la suppression du contrat."
+                                )
+                        else:
+                            display_error_message("Suppression annulée.")
                     else:
-                        display_error_message("Suppression annulée.")
+                        display_error_message("Vous devez être un gestionnaire pour supprimer un contrat.")
                 elif action == "9":
-                    event_details = get_event_details()
-                    try:
-                        create_event(*event_details)
-                        display_success_message("Evenement créer avec succès!")
-                    except Exception as e:
-                        display_error_message(
-                            f"Erreur lors de l'ajout de l'évenement: {e}"
-                        )
-                elif action == "10":
-                    display_events_of_collaborateur_connected()
-                    event_id = input(
-                        "Entrez l'ID de l'évenement que vous souhaitez mettre à jour :"
-                    )
-                    current_event = get_event_by_id(event_id)
-                    if current_event:
-                        new_values_event = update_event_view(event_id, current_event)
-                    try:
-                        update_event(event_id, new_values_event)
-                        display_success_message("Evenement modifié avec succès !")
-                    except:
-                        display_error_message(
-                            f"Erreur lors de la modification de l'evenement."
-                        )
-                elif action == "11":
-                    event_id = input(
-                        "Entrez l'ID de l'évenement que vous souhaitez supprimer : "
-                    )
-                    confirm = input(
-                        "Êtes-vous sûr de vouloir supprimer cet évenement ? (oui/non) : "
-                    )
-                    if confirm.lower() == "oui":
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    if collaborateur_role == "commercial":
+                        event_details = get_event_details()
                         try:
-                            delete_event(event_id)
-                            display_success_message("Evenement supprimé avec succès !")
-                        except:
+                            create_event(*event_details)
+                            display_success_message("Evenement créer avec succès!")
+                        except Exception as e:
                             display_error_message(
-                                "Erreur lors de la suppression de l'évenement."
+                                f"Erreur lors de l'ajout de l'évenement: {e}"
                             )
                     else:
-                        display_error_message("Suppression annulée.")
+                        display_error_message("Vous devez être un commercial pour créer un évenement.")
+                elif action == "10":
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    if collaborateur_role == "support":
+                        display_events_of_collaborateur_connected()
+                        event_id = input(
+                            "Entrez l'ID de l'évenement que vous souhaitez mettre à jour :"
+                        )
+                        current_event = get_event_by_id(event_id)
+                        if current_event:
+                            new_values_event = update_event_view(event_id, current_event)
+                        try:
+                            update_event(event_id, new_values_event)
+                            display_success_message("Evenement modifié avec succès !")
+                        except:
+                            display_error_message(
+                                f"Erreur lors de la modification de l'evenement."
+                            )
+                    else:
+                        display_error_message("Vous devez être un membre du département support pour modifier un évenement.")
+                elif action == "11":
+                    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+                    if collaborateur_role == "support":
+                        event_id = input(
+                            "Entrez l'ID de l'évenement que vous souhaitez supprimer : "
+                        )
+                        confirm = input(
+                            "Êtes-vous sûr de vouloir supprimer cet évenement ? (oui/non) : "
+                        )
+                        if confirm.lower() == "oui":
+                            try:
+                                delete_event(event_id)
+                                display_success_message("Evenement supprimé avec succès !")
+                            except:
+                                display_error_message(
+                                    "Erreur lors de la suppression de l'évenement."
+                                )
+                        else:
+                            display_error_message("Suppression annulée.")
+                    else:
+                        display_error_message("Vous devez être un membre du département support pour supprimer un évenement.")
                 elif action == "12":
                     clients = get_clients_filtered()
                     display_list_of_clients(clients)
@@ -267,6 +306,8 @@ def main():
                     events = get_events_filter_by_date()
                     display_list_of_events(events)
                 elif action == "exit":
+                    print("Déconnexion en cours...")
+                    disconnection_collaborateur()  
                     print("Au revoir !")
                     sys.exit()
                 else:

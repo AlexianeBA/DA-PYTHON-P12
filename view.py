@@ -136,7 +136,7 @@ def get_contract_details():
     client_id = input("Entrez le numéro de l'identifiant du client: ")
     client = input("Entrez le nom complet du client: ")
     contact_commercial = input("Entrez votre identifiant: ")
-    collaborateur_id = input("Entrez votre ID/ ")
+    collaborateur_id = input("Entrez votre ID: ")
     montant_total = input("Entrez le montant total en €: ")
     montant_restant_a_payer = input("Montant restant à payer en €: ")
     statut_contrat = input("Renseigner le statut du contrat (en cours ou terminé): ")
@@ -251,7 +251,7 @@ def display_success_message(message):
 
 
 def display_error_message(message):
-    print(f"Erreur : {message}")
+    print(f"{message}")
 
 
 def display_list_of_clients(clients):
