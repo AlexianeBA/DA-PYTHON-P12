@@ -13,7 +13,6 @@ from controllers.contract_controller import (
     get_contract_by_id,
     update_contract,
     delete_contract,
-    get_all_contracts,
     get_contracts_filter_by_price
 )
 from controllers.collaborateur_controlleur import (
@@ -22,7 +21,6 @@ from controllers.collaborateur_controlleur import (
     get_collaborateur_by_id,
     update_collaborateur,
     delete_collaborateur,
-    get_all_collaborateurs,
     get_collaborateurs_filtered,
     get_collaborateur_id_connected,
     disconnection_collaborateur
@@ -32,7 +30,6 @@ from controllers.event_controller import (
     get_event_by_id,
     update_event,
     delete_event,
-    get_all_events,
     get_events_filter_by_date_passed
 )
 from view import (
@@ -61,7 +58,6 @@ from view import (
     display_events_passed,
     display_events_future
 )
-
 
 def main():
     choice = display_menu_start()
