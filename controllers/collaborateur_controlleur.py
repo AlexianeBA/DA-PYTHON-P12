@@ -49,7 +49,7 @@ def create_collaborateur(nom_utilisateur, mot_de_passe, role, session):
     return collaborateur
 
 
-def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
+def authenticate_collaborateur(nom_utilisateur, mot_de_passe, session):
     """
     Authentifie un collaborateur.
 
@@ -70,8 +70,6 @@ def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
             collaborateur.is_connected = True
             session.commit()
             collaborateur_id = collaborateur.id
-            print(collaborateur.role)
-            print(collaborateur.id)
     else:
         print("User not found!")
 
