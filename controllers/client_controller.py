@@ -11,6 +11,7 @@ def create_client(
     derniere_maj_contact,
     contact_commercial_chez_epic_events,
     collaborateur_id,
+    session=None
 ):
     """
     Créer un nouveau client dans la base de données.
@@ -30,6 +31,9 @@ def create_client(
     Raises:
         ValueError: Si le collaborateur n'a pas le rôle 'commercial'.
     """
+    if session is None:
+        
+        session = Session()
     collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
     if collaborateur:
         if collaborateur.role == 'commercial':
@@ -48,7 +52,6 @@ def create_client(
             session.commit()
             session.close()
             return client
-    else:
         raise ValueError("Seuls les collaborateurs avec le rôle 'commercial' "
                          "sont autorisés à créer un client.")
 

@@ -23,7 +23,7 @@ def hash_password(password):
     return hashed_password, salt
 
 
-def create_collaborateur(nom_utilisateur, mot_de_passe, role):
+def create_collaborateur(nom_utilisateur, mot_de_passe, role, session):
     """
     Crée un nouveau collaborateur dans la base de données.
 
@@ -31,11 +31,11 @@ def create_collaborateur(nom_utilisateur, mot_de_passe, role):
         nom_utilisateur (str): Le nom d'utilisateur du collaborateur.
         mot_de_passe (str): Le mot de passe du collaborateur.
         role (str): Le rôle du collaborateur.
+        session (Session): La session SQLAlchemy.
 
     Returns:
         Collaborateur: Le collaborateur créé.
     """
-    session = Session()
     hashed_password, salt = hash_password(mot_de_passe)
     collaborateur = Collaborateur(
         nom_utilisateur=nom_utilisateur,
@@ -47,6 +47,7 @@ def create_collaborateur(nom_utilisateur, mot_de_passe, role):
     session.commit()
     session.close()
     return collaborateur
+
 
 def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
     """
