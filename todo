@@ -1,8 +1,11 @@
 
-hachage mdp
-modifier affiliation département 
 
-implémenter rich ou click (pour le moment j'utilise rich)
-ajouté sentry
-digramme uml
+
+
+ajouter sentry
+pylint
+test unitaire
+model owasp
+patterns
+
 

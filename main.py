@@ -33,7 +33,7 @@ from controllers.event_controller import (
     update_event,
     delete_event,
     get_all_events,
-    get_events_filter_by_date
+    get_events_filter_by_date_passed
 )
 from view import (
     display_menu_start,
@@ -57,7 +57,9 @@ from view import (
     display_list_of_events,
     display_contracts_of_collaborateur_connected,
     display_events_of_collaborateur_connected,
-    display_clients_of_collaborateur_connected
+    display_clients_of_collaborateur_connected,
+    display_events_passed,
+    display_events_future
 )
 
 
@@ -244,6 +246,7 @@ def main():
                     collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                     if collaborateur_role == "commercial":
                         event_details = get_event_details()
+                        print(event_details)
                         try:
                             create_event(*event_details)
                             display_success_message("Evenement créer avec succès!")
@@ -301,8 +304,12 @@ def main():
                     contracts = get_contracts_filter_by_price()
                     display_list_of_contracts(contracts)
                 elif action == "15":
-                    events = get_events_filter_by_date()
+                    events = get_events_filter_by_date_passed()
                     display_list_of_events(events)
+                elif action == "16":
+                    display_events_passed()
+                elif action == "17":
+                    display_events_future()
                 elif action == "exit":
                     print("Déconnexion en cours...")
                     disconnection_collaborateur()  

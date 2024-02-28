@@ -4,6 +4,8 @@
 CREATE TABLE client (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, nom_complet VARCHAR(256) NOT NULL, email VARCHAR(256) NOT NULL, telephone VARCHAR(16), nom_entreprise VARCHAR(256), date_de_creation DATE, dernière_maj_contact DATE NOT NULL, contact_commercial_chez_epic_events VARCHAR(256) NOT NULL
 );
+ALTER TABLE client
+CHANGE COLUMN dernière_maj_contact derniere_maj_contact DATE NOT NULL;
 ALTER TABLE client ADD COLUMN collaborateur_id INT;
 SHOW COLUMNS FROM client;
 INSERT INTO `client` (`nom_complet`,`email`, `telephone`, `nom_entreprise`, `date_de_creation`,`dernière_maj_contact`,`contact_commercial_chez_epic_events`)
