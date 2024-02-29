@@ -394,7 +394,7 @@ def display_list_of_clients(clients):
             client.telephone,
             client.nom_entreprise,
             str(client.date_de_creation),
-            str(client.dernière_maj_contact),
+            str(client.derniere_maj_contact),
             client.contact_commercial_chez_epic_events,
         )
     print("Voici la liste des clients chez Epicevents: ")
@@ -565,7 +565,7 @@ def display_clients_of_collaborateur_connected():
             str(client.telephone),
             client.nom_complet,
             datetime(client.date_de_creation),
-            datetime(client.dernière_maj_contact),
+            datetime(client.derniere_maj_contact),
             client.contact_commercial_chez_epic_events,
         )
     print("Liste de vos clients: ")

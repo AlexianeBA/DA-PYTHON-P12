@@ -30,7 +30,6 @@ def create_contract(
     Returns:
         Contract: Le contrat créé.
     """
-    session = session or Session()  
   
     client = get_client_by_id(client_id)
     contract = Contract(
@@ -42,9 +41,10 @@ def create_contract(
         montant_restant_a_payer=montant_restant_a_payer,
         statut_contrat=statut_contrat,
     )
-    session.add(contract)
-    session.commit()
-    session.close()
+    if session:
+        session.add(contract)
+        session.commit()
+        session.close()
     return contract
 
 
