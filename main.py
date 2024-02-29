@@ -178,6 +178,7 @@ def main():
                     elif action == "5":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                         if collaborateur_role == "commercial":
+                            display_clients_of_collaborateur_connected()
                             client_id = input(
                                 "Entrez l'ID du client que vous souhaitez supprimer : "
                             )

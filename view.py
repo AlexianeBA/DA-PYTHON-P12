@@ -595,8 +595,8 @@ def display_events_passed():
             str(event.id),
             str(event.contract_id),
             str(event.collaborateur_id),
-            event.date_debut.strftime('%Y-%m-%d %H:%M:%S'),  # Formatage de la date de début
-            event.date_fin.strftime('%Y-%m-%d %H:%M:%S'),   # Formatage de la date de fin
+            event.date_debut.strftime('%Y-%m-%d %H:%M:%S'),  
+            event.date_fin.strftime('%Y-%m-%d %H:%M:%S'),   
             event.contact_support,
             event.lieu,
             str(event.participants),
@@ -626,8 +626,8 @@ def display_events_future():
             str(event.id),
             str(event.client_name),
             str(event.collaborateur_id),
-            event.date_debut.strftime('%Y-%m-%d %H:%M:%S'),  # Formatage de la date de début
-            event.date_fin.strftime('%Y-%m-%d %H:%M:%S'),   # Formatage de la date de fin
+            event.date_debut.strftime('%Y-%m-%d %H:%M:%S'),  
+            event.date_fin.strftime('%Y-%m-%d %H:%M:%S'),   
             event.contact_support,
             event.lieu,
             str(event.participants),

@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Date
+from datetime import datetime
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Boolean, Date
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -31,11 +32,10 @@ class Client(Base):
     email = Column(String(256), nullable=False)
     telephone = Column(String(16))
     nom_entreprise = Column(String(256))
-    date_de_creation = Column(Date)
-    derniere_maj_contact = Column(Date, nullable=True)
+    date_de_creation = Column(DateTime, default=datetime.now)
+    derniere_maj_contact = Column(DateTime, nullable=True)
     contact_commercial_chez_epic_events = Column(String(256), nullable=False)
     collaborateur_id = Column(Integer, ForeignKey("collaborateurs.id"))
-
 
     events = relationship("Events", back_populates="client")
     contracts = relationship("Contract", back_populates="client")
