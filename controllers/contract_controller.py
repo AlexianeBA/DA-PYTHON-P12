@@ -25,13 +25,14 @@ def create_contract(
         montant_total (float): Le montant total du contrat.
         montant_restant_a_payer (float): Le montant restant à payer pour le contrat.
         statut_contrat (str): Le statut du contrat.
+        session (Session, optional): La session de la base de données. Defaults to None.
 
     Returns:
         Contract: Le contrat créé.
     """
-    session = session or Session()
+    session = session or Session()  
+  
     client = get_client_by_id(client_id)
-    session = Session()
     contract = Contract(
         client_id=client_id,
         client=client,
