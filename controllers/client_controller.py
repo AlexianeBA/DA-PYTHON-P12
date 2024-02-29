@@ -1,7 +1,7 @@
 from database.db_config import Session
 from models.models import Collaborateur, Client
 
-session=Session()
+
 def create_client(
     nom_complet,
     email,
@@ -30,6 +30,7 @@ def create_client(
     Raises:
         ValueError: Si le collaborateur n'a pas le rôle 'commercial'.
     """
+    session=Session()
     collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
     if collaborateur:
         if collaborateur.role == 'commercial':
@@ -64,6 +65,7 @@ def get_client_by_id(client_id: int) -> Client:
     Returns:
         Client: Le client correspondant à l'identifiant donné.
     """
+    session=Session()
     client = session.query(Client).filter_by(id=client_id).first()
     session.close()
     return client
@@ -82,6 +84,7 @@ def update_client(client_id: int, new_values: dict) -> None:
     Returns:
         None
     """
+    session=Session()
     client = session.query(Client).filter_by(id=client_id).first()
     if client:
         for attr in new_values:
@@ -100,6 +103,7 @@ def delete_client(client_id: int) -> None:
     Returns:
         None
     """
+    session=Session()
     client = session.query(Client).filter_by(id=client_id).first()
     if client:
         session.delete(client)
@@ -119,6 +123,7 @@ def get_clients_filtered(nom_complet=None):
     Returns:
         list: Une liste de clients filtrés par nom complet.
     """
+    session=Session()
     query = session.query(Client)
 
     if nom_complet:
@@ -137,8 +142,6 @@ def get_clients_filter_by_collaborateur(collaborateur_id):
     Returns:
         list: Une liste des clients associés au collaborateur.
     """
-    
-    client = session.query(Client)\
-                    .filter_by(collaborateur_id=collaborateur_id)\
-                    .all()
+    session=Session()
+    client = session.query(Client).filter_by(collaborateur_id=collaborateur_id).all()
     return client

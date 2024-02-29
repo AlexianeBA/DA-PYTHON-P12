@@ -69,8 +69,6 @@ def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
             collaborateur.is_connected = True
             session.commit()
             collaborateur_id = collaborateur.id
-            print(collaborateur.role)
-            print(collaborateur.id)
     else:
         print("User not found!")
 
@@ -106,8 +104,6 @@ def get_collaborateur_id_connected():
     collaborateur = session.query(Collaborateur).filter_by(is_connected=True).first()
     session.close()
     if collaborateur:
-        print(collaborateur.role)
-        print(collaborateur.id)
         return collaborateur.id, collaborateur.role
     print("aucun collaborateur connecté")
     return None, None

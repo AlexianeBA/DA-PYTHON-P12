@@ -394,7 +394,7 @@ def display_list_of_clients(clients):
             client.telephone,
             client.nom_entreprise,
             str(client.date_de_creation),
-            str(client.dernière_maj_contact),
+            str(client.derniere_maj_contact),
             client.contact_commercial_chez_epic_events,
         )
     print("Voici la liste des clients chez Epicevents: ")
@@ -546,30 +546,33 @@ def display_clients_of_collaborateur_connected():
     """
     Affiche les clients du collaborateur connecté.
     """
-    collaborateur_id = get_collaborateur_id_connected()
-    clients = get_clients_filter_by_collaborateur(collaborateur_id)
-    table = Table(show_header=True, header_style="bold cyan")
-    table.add_column("Nom complet du client")
-    table.add_column("Adresse email du client")
-    table.add_column("Numéro de téléphone du client")
-    table.add_column("Nom de l'entreprise du client")
-    table.add_column("Date de création de la fiche client")
-    table.add_column("Dernière mise à jour de la fiche client")
-    table.add_column("Nom du contact commercial chez Epicevents")
-    table.add_column("ID du commercial")
-    for client in clients:
-        table.add_row(
-            str(client.id),
-            client.nom_complet,
-            client.email,
-            str(client.telephone),
-            client.nom_complet,
-            datetime(client.date_de_creation),
-            datetime(client.dernière_maj_contact),
-            client.contact_commercial_chez_epic_events,
-        )
-    print("Liste de vos clients: ")
-    console.print(table)
+    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+    if collaborateur_id:
+        clients = get_clients_filter_by_collaborateur(collaborateur_id)
+        table = Table(show_header=True, header_style="bold cyan")
+        table.add_column("Nom complet du client")
+        table.add_column("Adresse email du client")
+        table.add_column("Numéro de téléphone du client")
+        table.add_column("Nom de l'entreprise du client")
+        table.add_column("Date de création de la fiche client")
+        table.add_column("Dernière mise à jour de la fiche client")
+        table.add_column("Nom du contact commercial chez Epicevents")
+        table.add_column("ID du commercial")
+        for client in clients:
+            table.add_row(
+                str(client.id),
+                client.nom_complet,
+                client.email,
+                str(client.telephone),
+                client.nom_complet,
+                client.date_de_creation.strftime("%Y-%m-%d"), 
+                client.derniere_maj_contact.strftime("%Y-%m-%d"),
+                client.contact_commercial_chez_epic_events,
+            )
+        print("Liste de vos clients: ")
+        console.print(table)
+    else:
+        print("aucun collaborateur connecté")
 
 
 def display_events_passed():

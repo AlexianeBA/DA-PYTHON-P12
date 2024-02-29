@@ -49,7 +49,7 @@ class Client(Base):
             f"téléphone={self.telephone!r}, "
             f"nom de l'entreprise={self.nom_entreprise!r}, "
             f"date de création={self.date_de_creation!r}, "
-            f"dernière mise à jour du contact={self.dernière_maj_contact!r}, "
+            f"dernière mise à jour du contact={self.derniere_maj_contact!r}, "
             f"contact commercial chez épic events={self.contact_commercial_chez_epic_events!r}"
             f"id du commercial={self.collaborateur_id!r})"
         )

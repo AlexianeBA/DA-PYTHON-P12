@@ -143,7 +143,6 @@ def main():
                             display_error_message("Suppression annulée.")
                     elif action == "3":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
-                        
                         try:
                             if collaborateur_id and collaborateur_role == 'commercial':
                                 client_details = get_client_details()
@@ -167,9 +166,10 @@ def main():
                                 try:
                                     update_client(client_id, new_values)
                                     display_success_message("Client modifié avec succès !")
-                                except:
+                                except Exception as e:
+                                    sentry_sdk.capture_exception(e)
                                     display_error_message(
-                                        f"Erreur lors de la modification du client."
+                                        f"Erreur lors de la modification du client: {str(e)}"
                                     )
                             else:
                                 display_error_message("Client non trouvé.")
