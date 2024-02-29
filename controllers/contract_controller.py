@@ -12,6 +12,7 @@ def create_contract(
     montant_total,
     montant_restant_a_payer,
     statut_contrat,
+    session=None
 ):
     """
     Crée un nouveau contrat dans la base de données.
@@ -28,6 +29,7 @@ def create_contract(
     Returns:
         Contract: Le contrat créé.
     """
+    session = session or Session()
     client = get_client_by_id(client_id)
     session = Session()
     contract = Contract(
