@@ -111,7 +111,7 @@ def get_events_filter_by_collaborateur(collaborateur_id):
     Returns:
         list: Une liste des événements associés au collaborateur.
     """
-    events = session.query(Events).filter_by(collaborateur_id=collaborateur_id).all()
+    events = session.query(Events).filter_by(collaborateur_id=collaborateur_id[0]).all()
     return events
 
 

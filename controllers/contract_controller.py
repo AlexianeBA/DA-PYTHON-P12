@@ -74,12 +74,20 @@ def update_contract(contract_id, new_values):
         None
     """
     session = Session()
-    contract = session.query(Contract).filter_by(id=contract_id).first()
-    if contract:
-        for attr in new_values:
-            setattr(contract, attr, new_values[attr])
-        session.commit()
-    session.close()
+    try:
+        contract = session.query(Contract).filter_by(id=contract_id).first()
+        if contract:
+            for attr, value in new_values.items():
+                setattr(contract, attr, value)
+            session.commit()
+            print("Le contrat a été mis à jour avec succès.")
+        else:
+            print("Contrat introuvable.")
+    except Exception as e:
+        session.rollback()
+        print(f"Erreur lors de la mise à jour du contrat : {str(e)}")
+    finally:
+        session.close()
 
 
 def delete_contract(contract_id):
@@ -124,7 +132,7 @@ def get_contracts_filter_by_collaborateur(collaborateur_id):
         list: Une liste des contrats associés au collaborateur.
     """
     session = Session()
-    contracts = session.query(Contract).filter_by(collaborateur_id=collaborateur_id).all()
+    contracts = session.query(Contract).filter_by(collaborateur_id=collaborateur_id[0]).all()
     session.close()
     return contracts
 

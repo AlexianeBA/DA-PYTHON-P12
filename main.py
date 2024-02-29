@@ -31,7 +31,8 @@ from controllers.event_controller import (
     get_event_by_id,
     update_event,
     delete_event,
-    get_events_filter_by_date_passed
+    get_events_filter_by_date_passed,
+    get_all_events
 )
 from view import (
     display_menu_start,
@@ -234,6 +235,7 @@ def main():
                     elif action == "8":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                         if collaborateur_role == "gestion":
+                            display_contracts_of_collaborateur_connected()
                             contract_id = input(
                                 "Entrez l'ID du contrat que vous souhaitez supprimer : "
                             )
@@ -269,7 +271,8 @@ def main():
                     elif action == "10":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                         if collaborateur_role == "support":
-                            display_events_of_collaborateur_connected()
+                            events = get_all_events()
+                            display_list_of_events(events)
                             event_id = input(
                                 "Entrez l'ID de l'évenement que vous souhaitez mettre à jour :"
                             )
@@ -288,6 +291,8 @@ def main():
                     elif action == "11":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                         if collaborateur_role == "support":
+                            events = get_all_events()
+                            display_list_of_events(events)
                             event_id = input(
                                 "Entrez l'ID de l'évenement que vous souhaitez supprimer : "
                             )
