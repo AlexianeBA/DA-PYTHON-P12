@@ -90,7 +90,6 @@ def display_list_of_contracts(contracts: List[Contract]) -> None:
     """
     table = Table(show_header=True, header_style="bold cyan")
     table.add_column("ID du client concerné")
-    table.add_column("Nom du client")
     table.add_column("Nom du contact commercial")
     table.add_column("Nom du support")
     table.add_column("ID du contrat")

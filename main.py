@@ -31,6 +31,7 @@ from controllers.collaborateur_controlleur import (
 from controllers.event_controller import (
     create_event,
     get_event_by_id,
+    get_events_filter_by_date,
     update_event,
     delete_event,
     get_events_filter_by_date_passed,
@@ -308,7 +309,7 @@ def main() -> None:
                         contracts = get_contracts_filter_by_price()
                         display_list_of_contracts(contracts)
                     elif action == "15":
-                        events = get_events_filter_by_date_passed()
+                        events = get_events_filter_by_date()
                         display_list_of_events(events)
                     elif action == "16":
                         display_events_passed()

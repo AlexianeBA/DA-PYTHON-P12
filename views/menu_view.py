@@ -41,7 +41,7 @@ def display_menu()-> str:
     console.print("14. Afficher la liste de tous les contrats classés par statut")
     console.print("15. Afficher la liste de tous les événements classés par date")
     console.print("16. Afficher la liste de tous les événements passés")
-    console.print("16. Afficher la liste de tous les événements à venir")
+    console.print("17. Afficher la liste de tous les événements à venir")
     console.print("[red]exit. Quitter")
     console.rule(style="bright_yellow")
     return Prompt.ask("Entrez votre choix ")

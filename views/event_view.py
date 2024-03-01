@@ -1,11 +1,14 @@
 from typing import Any, Dict, List, Tuple
-from controllers.collaborateur_controlleur import get_collaborateur_id_connected
+from controllers.collaborateur_controlleur import get_only_id_collaborateur,get_collaborateur_id_connected
 from controllers.event_controller import get_events_filter_by_collaborateur, get_events_filter_by_date_passed, get_events_filter_by_date_future
 import datetime
 from rich.table import Table
 from models.event import Events
 from views.main_view import console
-def get_event_details()-> Tuple[str, str, str, str, str, str, str, str, str]:
+from datetime import datetime
+
+
+def get_event_details() -> Tuple[str, str, int, str, str, str, str, str]:
     """
     Demande et renvoie les détails de l'événement saisis par l'utilisateur.
 
@@ -13,27 +16,28 @@ def get_event_details()-> Tuple[str, str, str, str, str, str, str, str, str]:
         tuple: Les détails de l'événement saisis par l'utilisateur.
     """
     contract_id = input("Entrez l'identifiant contrat: ")
-    client_name = input("Entrez le nom du client: ")
-    collaborateur_id=input("Entrez votre id")
+    client_name = input("Entrez le nom du client associé au contrat: ")
+    
     date_debut = input("Entrez la date du début de l'évènement: ")
     date_fin = input("Entrez la date de fin de l'évènement: ")
     contact_support = input("Entrez le nom du contact support: ")
-    lieu = input("Entrez le lieu de l'évenement ")
-    participants = input("Renseignez le nombre de participants ")
+    lieu = input("Entrez le lieu de l'évenement: ")
+    participants = input("Renseignez le nombre de participants: ")
     notes = input("Informations supplémentaires: ")
+    collaborateur_id = get_only_id_collaborateur()
 
     return (
         contract_id,
         client_name,
-        collaborateur_id,
+        
         date_debut,
         date_fin,
         contact_support,
         lieu,
         participants,
         notes,
+        collaborateur_id,
     )
-
 
 def update_event_view(event_id: int, current_values: Dict[str, Any]) -> Dict[str, Any]:
     """

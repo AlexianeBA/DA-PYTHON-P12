@@ -30,6 +30,5 @@ class Contract(Base):
     montant_restant_a_payer = Column(Integer)
     statut_contrat = Column(String(50), nullable=False)
 
-    events = relationship("Events", back_populates="contract")
     client = relationship("Client", back_populates="contracts")
     collaborateur = relationship("Collaborateur", back_populates="contracts")

@@ -12,9 +12,11 @@ def create_event(
     client_name: str,
     date_debut: datetime,
     date_fin: datetime,
+    contact_support: str,
     lieu: str,
     participants: int,
     notes: str,
+    collaborateur_id: int
 )-> Events:
     """
     Crée un nouvel événement dans la base de données.
@@ -27,30 +29,34 @@ def create_event(
         date_fin (datetime): La date de fin de l'événement.
         contact_support (str): Le contact de support pour l'événement.
         lieu (str): Le lieu de l'événement.
-        participants (str): Les participants à l'événement.
+        participants (int): Les participants à l'événement.
         notes (str): Les notes de l'événement.
 
     Returns:
         Events: L'événement créé.
     """
     session = Session()
-    collaborateur_id = get_collaborateur_by_id(contract_id)
-    contact_support = get_collaborateur_by_id(Collaborateur.nom_utilisateur)
+    
+    # Pas besoin de récupérer le collaborateur_id ici, car il est déjà passé en argument
+    
+    # Pas besoin de récupérer le contact_support non plus, car il est déjà passé en argument
+
     event = Events(
         contract_id=contract_id,
         client_name=client_name,
-        collaborateur_id=collaborateur_id,
         date_debut=date_debut,
         date_fin=date_fin,
         contact_support=contact_support,
         lieu=lieu,
         participants=participants,
         notes=notes,
+        collaborateur_id=collaborateur_id  # Utilisez directement l'identifiant du collaborateur passé en argument
     )
     session.add(event)
     session.commit()
     session.close()
     return event
+
 
 
 def get_event_by_id(event_id: int)-> Events:

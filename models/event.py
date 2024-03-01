@@ -26,16 +26,16 @@ class Events(Base):
     """
     __tablename__ = "events"
     id = Column(Integer, primary_key=True)
-    contract_id = Column(Integer, ForeignKey("contract.id"), nullable=False)
-    client_name = Column(Integer, ForeignKey("client.nom_complet"), nullable=False)
+    contract_id = Column(Integer, nullable=False)
+    client_name = Column(String(256), ForeignKey("client.nom_complet"), nullable=False)
     collaborateur_id = Column(Integer, ForeignKey("collaborateurs.id"))
-    date_debut = Column(Date)
-    date_fin = Column(Date)
+    date_debut = Column(Date, nullable=False)
+    date_fin = Column(Date, nullable=False)
     contact_support = Column(String(256))
     lieu = Column(String(1024))
     participants = Column(Integer)
     notes = Column(String(2048))
 
-    contract = relationship("Contract", back_populates="events")
+   
     client = relationship("Client", back_populates="events")
     collaborateur = relationship("Collaborateur", back_populates="events")

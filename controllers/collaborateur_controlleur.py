@@ -129,6 +129,14 @@ def get_collaborateur_id_connected():
     print("aucun collaborateur connecté")
     return None, None
 
+def get_only_id_collaborateur():
+    session = get_session()
+    collaborateur = session.query(Collaborateur).filter_by(is_connected=True).first()
+    session.close()
+    if collaborateur:
+        return collaborateur.id
+    return None
+
 
 def update_collaborateur(collaborateur_id: int, new_values: Dict[str, str])-> None:
     """
