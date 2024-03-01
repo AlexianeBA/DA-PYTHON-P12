@@ -2,23 +2,22 @@
 from controllers.client_controller import get_clients_filter_by_collaborateur, get_client_by_id
 from datetime import datetime
 from rich.table import Table
-from controllers.collaborateur_controlleur import get_collaborateur_id_connected
+from controllers.collaborateur_controlleur import get_collaborateur_id_connected, get_collaborateur_name_by_id
+from models.collaborateur import Collaborateur
 from views.main_view import console
-def get_client_details():
-    """
-    Demande et renvoie les détails du client saisis par l'utilisateur.
+import datetime
 
-    Returns:
-        tuple: Les détails du client saisis par l'utilisateur.
-    """
+
+def get_client_details():
+    print("Getting client details...")
     nom_complet = input("Entrez le nom complet du client : ")
     email = input("Entrez l'email du client : ")
     telephone = input("Entrez le numéro de téléphone du client : ")
     nom_entreprise = input("Entrez le nom de l'entreprise du client : ")
     date_de_creation = datetime.date.today()
     derniere_maj_contact = datetime.date.today()
-    
-
+    collaborateur_id = get_collaborateur_id_connected()
+    print("Client details retrieved successfully:", nom_complet, email, telephone, nom_entreprise)
     return (
         nom_complet,
         email,
@@ -26,9 +25,8 @@ def get_client_details():
         nom_entreprise,
         date_de_creation,
         derniere_maj_contact,
-        
+        collaborateur_id
     )
-
 
 def update_client_view(client_id, current_values):
     """
@@ -65,12 +63,7 @@ def update_client_view(client_id, current_values):
         )
         or current_values.nom_entreprise
     )
-    new_values["contact_commercial_chez_epic_events"] = (
-        input(
-            f"Nouveau contact commercial Epic Events ({current_values.contact_commercial_chez_epic_events}):"
-        )
-        or current_values.contact_commercial_chez_epic_events
-    )
+    
     return new_values
 
 
@@ -89,9 +82,11 @@ def display_list_of_clients(clients):
     table.add_column("Nom de l'entreprise")
     table.add_column("Date de création")
     table.add_column("Dernière mise à jour du contact")
-    table.add_column("Contact commercial chez Epic Events")
+    table.add_column("ID du commercial")
+    table.add_column("Nom du commercial")
 
     for client in clients:
+        nom_utilisateur_commercial = get_collaborateur_name_by_id(client.collaborateur_id)
         table.add_row(
             str(client.id),
             client.nom_complet,
@@ -100,7 +95,10 @@ def display_list_of_clients(clients):
             client.nom_entreprise,
             str(client.date_de_creation),
             str(client.derniere_maj_contact),
-            client.contact_commercial_chez_epic_events,
+            str(client.collaborateur_id),
+            nom_utilisateur_commercial
+            
+    
         )
     print("Voici la liste des clients chez Epicevents: ")
     console.print(table)
@@ -131,7 +129,7 @@ def display_clients_of_collaborateur_connected():
                 client.nom_entreprise,
                 client.date_de_creation.strftime("%Y-%m-%d"), 
                 client.derniere_maj_contact.strftime("%Y-%m-%d"),
-                client.contact_commercial_chez_epic_events,
+                
                 str(client.collaborateur_id)  
             )
         print("Liste de vos clients: ")

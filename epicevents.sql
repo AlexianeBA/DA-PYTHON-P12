@@ -5,8 +5,11 @@ CREATE TABLE client (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, nom_complet VARCHAR(256) NOT NULL, email VARCHAR(256) NOT NULL, telephone VARCHAR(16), nom_entreprise VARCHAR(256), date_de_creation DATE, dernière_maj_contact DATE NOT NULL, contact_commercial_chez_epic_events VARCHAR(256) NOT NULL
 );
 ALTER TABLE client
-CHANGE COLUMN dernière_maj_contact derniere_maj_contact DATE NOT NULL;
-ALTER TABLE client ADD COLUMN collaborateur_id INT;
+ADD CONSTRAINT fk_collaborateur_id
+FOREIGN KEY (collaborateur_id) REFERENCES collaborateurs(id);
+
+
+
 SHOW COLUMNS FROM client;
 
 ALTER TABLE client
@@ -25,13 +28,23 @@ CREATE TABLE contract (
     statut_contrat ENUM('en cours', 'terminé') NOT NULL
 );
 ALTER TABLE contract ADD COLUMN collaborateur_id INT;
-
+ALTER TABLE contract ADD COLUMN client_name VARCHAR(56);
+ALTER TABLE contract
+DROP COLUMN client_name;
 SHOW COLUMNS FROM contract;
 INSERT INTO `contract` (`client_id`,`contact_commercial`,`montant_total`,`montant_restant_a_payer`,`statut_contrat`)
 VALUES(1, 'Bill Boquet', 1230, 1230, 'en cours')
 
 SELECT * FROM contract;
-
+ALTER TABLE contract
+ADD CONSTRAINT fk_client_name
+FOREIGN KEY (client_name)
+REFERENCES client(nom_complet)
+ON UPDATE CASCADE;
+ALTER TABLE contract
+DROP FOREIGN KEY fk_client_name;
+ALTER TABLE client
+ADD COLUMN client_id INT AUTO_INCREMENT PRIMARY KEY;
 CREATE INDEX idx_client_name ON client (nom_complet);
 CREATE TABLE events(
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, 
@@ -54,7 +67,11 @@ VALUES (1, 'Kevin Casez', '2023-06-04', '2026-06-05', 'Kate Hastroff', '53 Rue d
 SELECT * FROM events;
 SHOW COLUMNS FROM client;
 SELECT * FROM client;
-
+ALTER TABLE contract
+ADD CONSTRAINT fk_client_name
+FOREIGN KEY (client_name)
+REFERENCES client(nom_complet)
+ON UPDATE CASCADE;
 DELETE FROM client WHERE nom_complet="sdd"
 
 

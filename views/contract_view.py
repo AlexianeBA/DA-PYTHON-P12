@@ -4,6 +4,7 @@ from controllers.contract_controller import get_contracts_filter_by_collaborateu
 import datetime
 from rich.table import Table
 from views.main_view import console
+from views.collaborateur_view import display_list_of_commercial
 def get_contract_details(client_id):
     """
     Récupère automatiquement les détails du contrat en fonction de l'ID du client et du collaborateur connecté.
@@ -18,14 +19,14 @@ def get_contract_details(client_id):
     client = get_client_by_id(client_id)
 
     if client and collaborateur_id:
-        contact_commercial = client.contact_commercial_chez_epic_events
+        display_list_of_commercial()
+        contact_commercial = input("Entrez l'id du commercial auquel sera rattacher le contrat")
         montant_total = input("Entrez le montant total en € : ")
         montant_restant_a_payer = input("Montant restant à payer en € : ")
         statut_contrat = input("Renseigner le statut du contrat (en cours ou terminé) : ")
 
         return (
             client_id,
-            client.nom_complet,
             contact_commercial,
             collaborateur_id,
             montant_total,
@@ -87,9 +88,10 @@ def display_list_of_contracts(contracts):
     """
     table = Table(show_header=True, header_style="bold cyan")
     table.add_column("ID du client concerné")
+    table.add_column("Nom du client")
     table.add_column("Nom du contact commercial")
     table.add_column("Nom du support")
-    
+    table.add_column("ID du contrat")
     table.add_column("Montant total à payer en €")
     table.add_column("Montant restant à payer en €")
     table.add_column("Statut du contrat")
@@ -102,6 +104,7 @@ def display_list_of_contracts(contracts):
             str(contract.client_id),
             contract.contact_commercial,
             support_name, 
+            str(contract.id),
             f"{str(contract.montant_total)} €",
             f"{str(contract.montant_restant_a_payer)} €",
             contract.statut_contrat

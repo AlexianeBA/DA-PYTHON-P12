@@ -7,7 +7,6 @@ from controllers.collaborateur_controlleur import get_collaborateur_id_connected
 
 def create_contract(
     client_id,
-    client,
     contact_commercial,
     collaborateur_id,
     montant_total,
@@ -35,8 +34,7 @@ def create_contract(
         session = Session()
         contract = Contract(
             client_id=client_id,
-            client=client,
-            contact_commercial=client.contact_commercial_chez_epic_events,
+            contact_commercial=contact_commercial,
             collaborateur_id=collaborateur_id,
             montant_total=montant_total,
             montant_restant_a_payer=montant_restant_a_payer,

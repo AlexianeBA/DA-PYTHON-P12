@@ -18,7 +18,7 @@ class Client(Base):
         nom_entreprise (str): Nom de l'entreprise du client.
         date_de_creation (Date): Date de création du client.
         derniere_maj_contact (Date, optional): Dernière mise à jour du contact avec le client.
-        contact_commercial_chez_epic_events (str): Contact commercial chez Epic Events.
+        
         collaborateur_id (int): Identifiant du collaborateur associé au client.
         events (relationship): Relation avec la table Events.
         contracts (relationship): Relation avec la table Contract.
@@ -33,8 +33,8 @@ class Client(Base):
     nom_entreprise = Column(String(256))
     date_de_creation = Column(DateTime, default=datetime.now)
     derniere_maj_contact = Column(DateTime, nullable=True)
-    contact_commercial_chez_epic_events = Column(String(256), nullable=False)
-    collaborateur_id = Column(Integer, ForeignKey("collaborateurs.id"))
+    collaborateur_id = Column(Integer, ForeignKey('collaborateurs.id'))
+
 
     events = relationship("Events", back_populates="client")
     contracts = relationship("Contract", back_populates="client")
@@ -49,6 +49,5 @@ class Client(Base):
             f"nom de l'entreprise={self.nom_entreprise!r}, "
             f"date de création={self.date_de_creation!r}, "
             f"dernière mise à jour du contact={self.derniere_maj_contact!r}, "
-            f"contact commercial chez épic events={self.contact_commercial_chez_epic_events!r}"
             f"id du commercial={self.collaborateur_id!r})"
         )

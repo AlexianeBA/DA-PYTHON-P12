@@ -15,7 +15,8 @@ from controllers.contract_controller import (
     get_contract_by_id,
     update_contract,
     delete_contract,
-    get_contracts_filter_by_price
+    get_contracts_filter_by_price,
+    get_all_contracts
 )
 from controllers.collaborateur_controlleur import (
     create_collaborateur,
@@ -130,14 +131,14 @@ def main():
                     elif action == "3":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                         try:
-                            if collaborateur_id and collaborateur_role == 'commercial':
+                            if collaborateur_id and collaborateur_role == 'commercial':  # Vérifiez si le collaborateur a un rôle commercial
                                 client_details = get_client_details()
-                                create_client(*client_details, collaborateur_id=collaborateur_id)
+                                create_client(*client_details[:-1], collaborateur_id=collaborateur_id)  # Passez collaborateur_id explicitement
                                 display_success_message("Client ajouté avec succès !")
                             else:
-                                print("Vous n'avez pas les droits pour créer une fiche client.")
-                        except:
-                            display_error_message(f"Erreur lors de l'ajout du client.")
+                                print("Vous n'avez pas les droits pour créer une fiche client ou votre rôle n'est pas 'commercial'.")
+                        except Exception as e:
+                            display_error_message(f"Erreur lors de l'ajout du client : {str(e)}")
                     elif action == "4":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                         if collaborateur_role == "commercial":
@@ -243,6 +244,8 @@ def main():
                     elif action == "9":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                         if collaborateur_role == "commercial":
+                            contracts = get_all_contracts()
+                            display_list_of_contracts(contracts)
                             event_details = get_event_details()
                             print(event_details)
                             try:

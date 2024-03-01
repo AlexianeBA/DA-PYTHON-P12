@@ -2,6 +2,7 @@ import getpass
 import datetime
 from rich.table import Table
 from views.main_view import console
+from controllers.collaborateur_controlleur import get_all_commercial
 def get_username():
     """
     Demande et renvoie le nom d'utilisateur entré par l'utilisateur.
@@ -83,4 +84,22 @@ def display_list_of_collaborateurs(collaborateurs):
             collaborateur.role,
         )
     print("Voici la liste des collaborateurs chez Epicevents: ")
+    console.print(table)
+
+def display_list_of_commercial():
+    """
+    Affiche la liste de tous les commerciaux disponibles.
+    """
+    commercials = get_all_commercial()
+    table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("ID commercial")
+    table.add_column("Nom d'utilisateur du commercial")
+
+    for commercial in commercials:
+        table.add_row(
+            str(commercial.id),
+            commercial.nom_utilisateur,
+        )
+    
+    print("Voici la liste des commerciaux chez Epicevents :")
     console.print(table)

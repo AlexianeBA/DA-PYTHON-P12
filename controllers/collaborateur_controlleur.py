@@ -150,6 +150,39 @@ def update_collaborateur(collaborateur_id, new_values):
         session.commit()
     session.close()
 
+def get_collaborateur_name_by_id(collaborateur_id):
+    """
+    Récupère le nom du collaborateur à partir de son ID.
+
+    Args:
+        collaborateur_id (int): L'identifiant du collaborateur.
+
+    Returns:
+        str: Le nom d'utilisateur du collaborateur.
+    """
+    session = Session()  
+    collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
+    session.close() 
+
+    if collaborateur:
+        return collaborateur.nom_utilisateur  
+    else:
+        return "Inconnu"
+    
+
+def get_all_commercial():
+    """
+    Affiche la liste de tous les commerciaux disponibles.
+    """
+    session = Session()
+    collaborateur = session.query(Collaborateur).filter_by(role='commercial').all()
+    session.close()
+    if collaborateur:
+        return collaborateur
+    print("Liste des commerciaux disponibles :")
+
+
+
 
 def delete_collaborateur(collaborateur_id):
     """

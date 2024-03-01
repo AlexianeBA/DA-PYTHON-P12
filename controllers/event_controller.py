@@ -1,17 +1,16 @@
 from datetime import datetime
+from models.collaborateur import Collaborateur
 from models.event import Events
 from database.db_config import Session
-
+from controllers.collaborateur_controlleur import get_collaborateur_by_id
 
 session=Session()
 
 def create_event(
     contract_id,
     client_name,
-    collaborateur_id,
     date_debut,
     date_fin,
-    contact_support,
     lieu,
     participants,
     notes,
@@ -33,6 +32,9 @@ def create_event(
     Returns:
         Events: L'événement créé.
     """
+    session = Session()
+    collaborateur_id = get_collaborateur_by_id(contract_id)
+    contact_support = get_collaborateur_by_id(Collaborateur.nom_utilisateur)
     event = Events(
         contract_id=contract_id,
         client_name=client_name,

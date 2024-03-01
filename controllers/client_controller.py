@@ -2,7 +2,6 @@ from database.db_config import Session
 from models.collaborateur import Collaborateur
 from models.client import Client
 
-
 def create_client(
     nom_complet,
     email,
@@ -12,48 +11,34 @@ def create_client(
     derniere_maj_contact,
     collaborateur_id,
 ):
-    """
-    Créer un nouveau client dans la base de données.
-
-    Args:
-        nom_complet (str): Le nom complet du client.
-        email (str): L'adresse e-mail du client.
-        telephone (str): Le numéro de téléphone du client.
-        nom_entreprise (str): Le nom de l'entreprise du client.
-        date_de_creation (date): La date de création du client.
-        derniere_maj_contact (date): La dernière date de mise à jour du contact client.
-        contact_commercial_chez_epic_events (str): Le contact commercial chez Epic Events.
-        collaborateur_id (int): L'identifiant du collaborateur créant le client.
-
-    Returns:
-        Client: Le client créé.
-    Raises:
-        ValueError: Si le collaborateur n'a pas le rôle 'commercial'.
-    """
-    session=Session()
-    collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
-    if collaborateur:
-        if collaborateur.role == 'commercial':
-
-            client = Client(
-                nom_complet=nom_complet,
-                email=email,
-                telephone=telephone,
-                nom_entreprise=nom_entreprise,
-                date_de_creation=date_de_creation,
-                derniere_maj_contact=derniere_maj_contact,
-                contact_commercial_chez_epic_events=collaborateur.nom_utilisateur,
-                collaborateur_id=collaborateur_id
-            )
-            session.add(client)
-            session.commit()
-            session.close()
-            return client
-    else:
-        raise ValueError("Seuls les collaborateurs avec le rôle 'commercial' "
-                         "sont autorisés à créer un client.")
-
-
+    print("Creating client...")
+    try:
+        session = Session()
+        collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
+        if collaborateur:
+            if collaborateur.role == 'commercial':
+                client = Client(
+                    nom_complet=nom_complet,
+                    email=email,
+                    telephone=telephone,
+                    nom_entreprise=nom_entreprise,
+                    date_de_creation=date_de_creation,
+                    derniere_maj_contact=derniere_maj_contact,
+                    collaborateur_id=collaborateur_id
+                )
+                session.add(client)
+                session.commit()
+                session.close()
+                print("Client created successfully!")
+                return client
+            else:
+                raise ValueError("Seuls les collaborateurs avec le rôle 'commercial' sont autorisés à créer un client.")
+        else:
+            raise ValueError("Collaborateur not found.")
+    except Exception as e:
+        session.rollback()
+        print("Error creating client:", e)
+        raise
 
 def get_client_by_id(client_id: int) -> Client:
     """
