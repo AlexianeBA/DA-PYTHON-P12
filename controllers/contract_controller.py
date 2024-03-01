@@ -1,4 +1,5 @@
 
+from typing import Dict
 from models.contract import Contract
 from database.db_config import Session
 from controllers.client_controller import get_client_by_id
@@ -6,13 +7,13 @@ from controllers.collaborateur_controlleur import get_collaborateur_id_connected
 
 
 def create_contract(
-    client_id,
-    contact_commercial,
-    collaborateur_id,
-    montant_total,
-    montant_restant_a_payer,
-    statut_contrat,
-):
+    client_id: int,
+    contact_commercial: str,
+    collaborateur_id: int,
+    montant_total: int,
+    montant_restant_a_payer: int,
+    statut_contrat: str,
+)-> Contract:
     """
     Crée un nouveau contrat dans la base de données.
 
@@ -48,7 +49,7 @@ def create_contract(
         raise ValueError("Client non trouvé")
 
 
-def get_contract_by_id(contract_id):
+def get_contract_by_id(contract_id: int)-> Contract:
     """
     Récupère un contrat à partir de son identifiant.
 
@@ -64,7 +65,7 @@ def get_contract_by_id(contract_id):
     return contract
 
 
-def update_contract(contract_id, new_values):
+def update_contract(contract_id: int, new_values: Dict[str, str])-> None:
     """
     Met à jour les informations d'un contrat.
 
@@ -93,7 +94,7 @@ def update_contract(contract_id, new_values):
         session.close()
 
 
-def delete_contract(contract_id):
+def delete_contract(contract_id: int)-> None:
     """
     Supprime un contrat de la base de données.
 
@@ -111,7 +112,7 @@ def delete_contract(contract_id):
     session.close()
 
 
-def get_contracts_filter_by_price():
+def get_contracts_filter_by_price()-> Contract:
     """
     Récupère tous les contrats filtrés par prix.
 
@@ -124,7 +125,7 @@ def get_contracts_filter_by_price():
     return contracts
 
 
-def get_contracts_filter_by_collaborateur(collaborateur_id):
+def get_contracts_filter_by_collaborateur(collaborateur_id: int)-> Contract:
     """
     Récupère tous les contrats associés à un collaborateur donné.
 
@@ -140,7 +141,7 @@ def get_contracts_filter_by_collaborateur(collaborateur_id):
     return contracts
 
 
-def get_all_contracts():
+def get_all_contracts()-> Contract:
     """
     Récupère tous les contrats de la base de données.
 

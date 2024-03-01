@@ -1,11 +1,13 @@
+from typing import Any, Dict, List, Tuple
 from controllers.client_controller import get_client_by_id
 from controllers.collaborateur_controlleur import get_collaborateur_id_connected, get_support_name
 from controllers.contract_controller import get_contracts_filter_by_collaborateur
 import datetime
 from rich.table import Table
+from models.contract import Contract
 from views.main_view import console
 from views.collaborateur_view import display_list_of_commercial
-def get_contract_details(client_id):
+def get_contract_details(client_id: int) -> Tuple[int, int, int, str, str, str]:
     """
     Récupère automatiquement les détails du contrat en fonction de l'ID du client et du collaborateur connecté.
 
@@ -37,7 +39,7 @@ def get_contract_details(client_id):
         raise ValueError("Impossible de récupérer les détails du contrat. Veuillez vous assurer que le client existe et qu'un collaborateur est connecté.")
 
 
-def update_contract_view(contract_id, current_values):
+def update_contract_view(contract_id: int,current_values: Any) -> Dict[str, str]:
     """
     Affiche la vue de mise à jour du contrat.
 
@@ -79,7 +81,7 @@ def update_contract_view(contract_id, current_values):
     return new_values
 
 
-def display_list_of_contracts(contracts):
+def display_list_of_contracts(contracts: List[Contract]) -> None:
     """
     Affiche la liste des contrats.
 
@@ -112,7 +114,7 @@ def display_list_of_contracts(contracts):
     print("Voici la liste des contrats classés par prix croissant chez Epicevents: ")
     console.print(table)
 
-def display_contracts_of_collaborateur_connected():
+def display_contracts_of_collaborateur_connected()-> List[Contract]:
     """
     Affiche les contrats du collaborateur connecté.
     """

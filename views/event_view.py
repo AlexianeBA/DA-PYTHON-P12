@@ -1,9 +1,11 @@
+from typing import Any, Dict, List, Tuple
 from controllers.collaborateur_controlleur import get_collaborateur_id_connected
 from controllers.event_controller import get_events_filter_by_collaborateur, get_events_filter_by_date_passed, get_events_filter_by_date_future
 import datetime
 from rich.table import Table
+from models.event import Events
 from views.main_view import console
-def get_event_details():
+def get_event_details()-> Tuple[str, str, str, str, str, str, str, str, str]:
     """
     Demande et renvoie les détails de l'événement saisis par l'utilisateur.
 
@@ -33,7 +35,7 @@ def get_event_details():
     )
 
 
-def update_event_view(event_id, current_values):
+def update_event_view(event_id: int, current_values: Dict[str, Any]) -> Dict[str, Any]:
     """
     Affiche la vue de mise à jour de l'événement.
 
@@ -82,7 +84,7 @@ def update_event_view(event_id, current_values):
     )
     return new_values
 
-def display_list_of_events(events):
+def display_list_of_events(events: List[Dict[str, Any]]) -> List[Events]:
     """
     Affiche la liste des événements.
 
@@ -115,7 +117,7 @@ def display_list_of_events(events):
     print("Voici la liste des évenement: ")
     console.print(table)
 
-def display_events_of_collaborateur_connected():
+def display_events_of_collaborateur_connected()-> List[Events]:
     """
     Affiche les événements du collaborateur connecté.
     """
@@ -148,7 +150,7 @@ def display_events_of_collaborateur_connected():
 
 
 
-def display_events_passed():
+def display_events_passed()-> List[Events]:
     """
     Affiche les événements passés.
     """

@@ -22,7 +22,6 @@ class Contract(Base):
     """
     __tablename__ = "contract"
 
-    #ajouter foreignfey pour contact_commercial
     id = Column(Integer, primary_key=True)
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
     contact_commercial = Column(String(256),  nullable=False)

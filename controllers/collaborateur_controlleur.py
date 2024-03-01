@@ -5,10 +5,10 @@ from models.collaborateur import Collaborateur
 from database.db_config import Session
 from database.db_config import get_session
 from models.client import Client
+from typing import Dict, Optional, Tuple
 
 
-
-def hash_password(password):
+def hash_password(password: str)-> Tuple[str,str]:
     """
     Hash le mot de passe avec un sel aléatoire.
 
@@ -23,7 +23,7 @@ def hash_password(password):
     return hashed_password, salt
 
 
-def create_collaborateur(nom_utilisateur, mot_de_passe, role):
+def create_collaborateur(nom_utilisateur: str, mot_de_passe:str, role:str) -> Collaborateur:
     """
     Crée un nouveau collaborateur dans la base de données.
 
@@ -48,7 +48,7 @@ def create_collaborateur(nom_utilisateur, mot_de_passe, role):
     session.close()
     return collaborateur
 
-def get_support_name(collaborateur_id):
+def get_support_name(collaborateur_id: int)-> str:
     """
     Récupère le nom du support à partir de l'identifiant du collaborateur.
 
@@ -69,7 +69,7 @@ def get_support_name(collaborateur_id):
     
     return "Support introuvable"
 
-def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
+def authenticate_collaborateur(nom_utilisateur: str, mot_de_passe: str)-> Collaborateur:
     """
     Authentifie un collaborateur.
 
@@ -97,7 +97,7 @@ def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
     return collaborateur_id
 
 
-def get_collaborateur_by_id(collaborateur_id):
+def get_collaborateur_by_id(collaborateur_id: int)->Collaborateur:
     """
     Récupère un collaborateur à partir de son identifiant.
 
@@ -130,7 +130,7 @@ def get_collaborateur_id_connected():
     return None, None
 
 
-def update_collaborateur(collaborateur_id, new_values):
+def update_collaborateur(collaborateur_id: int, new_values: Dict[str, str])-> None:
     """
     Met à jour les informations d'un collaborateur.
 
@@ -150,7 +150,7 @@ def update_collaborateur(collaborateur_id, new_values):
         session.commit()
     session.close()
 
-def get_collaborateur_name_by_id(collaborateur_id):
+def get_collaborateur_name_by_id(collaborateur_id: int)-> str:
     """
     Récupère le nom du collaborateur à partir de son ID.
 
@@ -184,7 +184,7 @@ def get_all_commercial():
 
 
 
-def delete_collaborateur(collaborateur_id):
+def delete_collaborateur(collaborateur_id: int)-> None:
     """
     Supprime un collaborateur de la base de données.
 
@@ -201,7 +201,7 @@ def delete_collaborateur(collaborateur_id):
         session.commit()
     session.close()
 
-def get_all_collaborateurs(nom_utilisateur=None):
+def get_all_collaborateurs(nom_utilisateur: Optional[str] = None)-> Collaborateur:
     """
     Récupère une liste de tous les collaborateurs ou filtrée par nom d'utilisateur.
 
@@ -220,7 +220,7 @@ def get_all_collaborateurs(nom_utilisateur=None):
     return collaborateurs
 
 
-def get_collaborateurs_filtered(nom_utilisateur=None):
+def get_collaborateurs_filtered(nom_utilisateur: Optional[str] = None)-> Collaborateur:
     """
     Récupère une liste de collaborateurs filtrés par nom d'utilisateur.
 

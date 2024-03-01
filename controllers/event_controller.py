@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Dict
 from models.collaborateur import Collaborateur
 from models.event import Events
 from database.db_config import Session
@@ -7,14 +8,14 @@ from controllers.collaborateur_controlleur import get_collaborateur_by_id
 session=Session()
 
 def create_event(
-    contract_id,
-    client_name,
-    date_debut,
-    date_fin,
-    lieu,
-    participants,
-    notes,
-):
+    contract_id: int,
+    client_name: str,
+    date_debut: datetime,
+    date_fin: datetime,
+    lieu: str,
+    participants: int,
+    notes: str,
+)-> Events:
     """
     Crée un nouvel événement dans la base de données.
 
@@ -52,7 +53,7 @@ def create_event(
     return event
 
 
-def get_event_by_id(event_id):
+def get_event_by_id(event_id: int)-> Events:
     """
     Récupère un événement à partir de son identifiant.
 
@@ -67,7 +68,7 @@ def get_event_by_id(event_id):
     return event
 
 
-def update_event(event_id, new_values):
+def update_event(event_id: int, new_values: Dict[str, str])-> None:
     """
     Met à jour les informations d'un événement.
 
@@ -87,7 +88,7 @@ def update_event(event_id, new_values):
     session.close()
 
 
-def delete_event(event_id):
+def delete_event(event_id: int)-> None:
     """
     Supprime un événement de la base de données.
 
@@ -103,7 +104,7 @@ def delete_event(event_id):
         session.commit()
     session.close()
 
-def get_events_filter_by_collaborateur(collaborateur_id):
+def get_events_filter_by_collaborateur(collaborateur_id: int)-> Events:
     """
     Récupère tous les événements associés à un collaborateur donné.
 
@@ -117,7 +118,7 @@ def get_events_filter_by_collaborateur(collaborateur_id):
     return events
 
 
-def get_all_events():
+def get_all_events()-> Events:
     """
     Récupère tous les événements de la base de données.
 
@@ -127,7 +128,7 @@ def get_all_events():
     events = session.query(Events).all()
     return events
 
-def get_events_filter_by_date(date_debut=None):
+def get_events_filter_by_date(date_debut: int=None)-> Events:
     """
     Récupère tous les événements filtrés par date de début.
 
@@ -146,7 +147,7 @@ def get_events_filter_by_date(date_debut=None):
     return event
 
 
-def get_events_filter_by_date_passed():
+def get_events_filter_by_date_passed()-> Events:
     """
     Récupère tous les événements passés.
 
@@ -159,7 +160,7 @@ def get_events_filter_by_date_passed():
                         .all()
     return past_events
 
-def get_events_filter_by_date_future():
+def get_events_filter_by_date_future()-> Events:
     """
     Récupère tous les événements futurs.
 

@@ -1,9 +1,11 @@
 import getpass
 import datetime
+from typing import Any, Dict, List
 from rich.table import Table
+from models.collaborateur import Collaborateur
 from views.main_view import console
 from controllers.collaborateur_controlleur import get_all_commercial
-def get_username():
+def get_username()-> str:
     """
     Demande et renvoie le nom d'utilisateur entré par l'utilisateur.
 
@@ -13,7 +15,7 @@ def get_username():
     return input("Nom d'utilisateur : ")
 
 
-def get_password():
+def get_password()-> str:
     """
     Demande et renvoie le mot de passe entré par l'utilisateur (avec masquage).
 
@@ -23,7 +25,7 @@ def get_password():
     return getpass.getpass("Mot de passe : ")
 
 
-def get_role():
+def get_role()-> str:
     """
     Demande et renvoie le rôle défini par l'utilisateur.
 
@@ -37,7 +39,7 @@ def get_role():
 
 
 
-def update_collaborateur_view(collaborateur_id, current_values):
+def update_collaborateur_view(collaborateur_id: int, current_values: Any) -> Dict[str, str]:
     """
     Affiche la vue de mise à jour du collaborateur.
 
@@ -66,7 +68,7 @@ def update_collaborateur_view(collaborateur_id, current_values):
     )
     return new_values
 
-def display_list_of_collaborateurs(collaborateurs):
+def display_list_of_collaborateurs(collaborateurs: List[Collaborateur]) -> None:
     """
     Affiche la liste des collaborateurs.
 
@@ -86,7 +88,7 @@ def display_list_of_collaborateurs(collaborateurs):
     print("Voici la liste des collaborateurs chez Epicevents: ")
     console.print(table)
 
-def display_list_of_commercial():
+def display_list_of_commercial()-> None:
     """
     Affiche la liste de tous les commerciaux disponibles.
     """

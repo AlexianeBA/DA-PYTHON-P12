@@ -1,7 +1,7 @@
 from views.main_view import console
 from rich.prompt import Prompt
 
-def display_menu_start():
+def display_menu_start()-> str:
     """
     Affiche le menu principal pour créer un compte, se connecter ou quitter.
     
@@ -16,7 +16,7 @@ def display_menu_start():
     choice = Prompt.ask("Entrez votre choix: ")
     return choice
 
-def display_menu():
+def display_menu()-> str:
     """
     Affiche le menu principal pour les actions disponibles pour l'utilisateur connecté.
     

@@ -1,14 +1,16 @@
 
+from typing import Any, Dict, List, Tuple
 from controllers.client_controller import get_clients_filter_by_collaborateur, get_client_by_id
 from datetime import datetime
 from rich.table import Table
 from controllers.collaborateur_controlleur import get_collaborateur_id_connected, get_collaborateur_name_by_id
+from models.client import Client
 from models.collaborateur import Collaborateur
 from views.main_view import console
 import datetime
 
 
-def get_client_details():
+def get_client_details()-> Tuple[str, str, str, str, datetime.date, datetime.date, int]:
     print("Getting client details...")
     nom_complet = input("Entrez le nom complet du client : ")
     email = input("Entrez l'email du client : ")
@@ -28,7 +30,7 @@ def get_client_details():
         collaborateur_id
     )
 
-def update_client_view(client_id, current_values):
+def update_client_view(client_id: int, current_values: Any) -> Dict[str, str]:
     """
     Affiche la vue de mise à jour du client.
 
@@ -67,7 +69,7 @@ def update_client_view(client_id, current_values):
     return new_values
 
 
-def display_list_of_clients(clients):
+def display_list_of_clients(clients: List[Client]) -> None:
     """
     Affiche la liste des clients.
 
@@ -103,7 +105,7 @@ def display_list_of_clients(clients):
     print("Voici la liste des clients chez Epicevents: ")
     console.print(table)
 
-def display_clients_of_collaborateur_connected():
+def display_clients_of_collaborateur_connected()-> None:
     """
     Affiche les clients du collaborateur connecté.
     """

@@ -58,7 +58,7 @@ sentry_sdk.init(
 )
 
 
-def main():
+def main() -> None:
     try:
         choice = display_menu_start()
         if choice == "1":

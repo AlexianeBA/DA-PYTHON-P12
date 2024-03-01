@@ -3,7 +3,7 @@ from rich import print
 from rich.table import Table
 
 
-def display_success_message(message):
+def display_success_message(message: str) -> None:
     """
     Affiche un message de succès.
 
@@ -13,7 +13,7 @@ def display_success_message(message):
     print(message)
 
 
-def display_error_message(message):
+def display_error_message(message: str) -> None:
     """
     Affiche un message d'erreur.
 
@@ -25,7 +25,7 @@ def display_error_message(message):
 
 console = Console()
 
-def display_welcome_message(nom_utilisateur):
+def display_welcome_message(nom_utilisateur: str) -> None:
     """
     Affiche un message de bienvenue personnalisé.
 
