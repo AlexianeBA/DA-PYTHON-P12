@@ -1,7 +1,8 @@
-from models.models import Contract
+
+from models.contract import Contract
 from database.db_config import Session
 from controllers.client_controller import get_client_by_id
-
+from controllers.collaborateur_controlleur import get_collaborateur_id_connected
 
 
 def create_contract(
@@ -29,20 +30,24 @@ def create_contract(
         Contract: Le contrat créé.
     """
     client = get_client_by_id(client_id)
-    session = Session()
-    contract = Contract(
-        client_id=client_id,
-        client=client,
-        contact_commercial=contact_commercial,
-        collaborateur_id=collaborateur_id,
-        montant_total=montant_total,
-        montant_restant_a_payer=montant_restant_a_payer,
-        statut_contrat=statut_contrat,
-    )
-    session.add(contract)
-    session.commit()
-    session.close()
-    return contract
+    collaborateur_id = get_collaborateur_id_connected()
+    if client:
+        session = Session()
+        contract = Contract(
+            client_id=client_id,
+            client=client,
+            contact_commercial=client.contact_commercial_chez_epic_events,
+            collaborateur_id=collaborateur_id,
+            montant_total=montant_total,
+            montant_restant_a_payer=montant_restant_a_payer,
+            statut_contrat=statut_contrat,
+        )
+        session.add(contract)
+        session.commit()
+        session.close()
+        return contract
+    else:
+        raise ValueError("Client non trouvé")
 
 
 def get_contract_by_id(contract_id):

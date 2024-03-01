@@ -1,10 +1,10 @@
 import hashlib
 import secrets
 import atexit
-from models.models import Collaborateur
+from models.collaborateur import Collaborateur
 from database.db_config import Session
 from database.db_config import get_session
-
+from models.client import Client
 
 
 
@@ -47,6 +47,27 @@ def create_collaborateur(nom_utilisateur, mot_de_passe, role):
     session.commit()
     session.close()
     return collaborateur
+
+def get_support_name(collaborateur_id):
+    """
+    Récupère le nom du support à partir de l'identifiant du collaborateur.
+
+    Args:
+        collaborateur_id (int): L'identifiant du collaborateur.
+
+    Returns:
+        str: Le nom du support associé au collaborateur.
+    """
+    session = Session()
+    collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
+    
+    if collaborateur:
+        support_name = collaborateur.nom_utilisateur 
+        session.close()
+        if support_name:
+            return support_name
+    
+    return "Support introuvable"
 
 def authenticate_collaborateur(nom_utilisateur, mot_de_passe):
     """

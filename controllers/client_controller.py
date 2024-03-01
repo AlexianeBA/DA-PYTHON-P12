@@ -1,5 +1,6 @@
 from database.db_config import Session
-from models.models import Collaborateur, Client
+from models.collaborateur import Collaborateur
+from models.client import Client
 
 
 def create_client(
@@ -9,7 +10,6 @@ def create_client(
     nom_entreprise,
     date_de_creation,
     derniere_maj_contact,
-    contact_commercial_chez_epic_events,
     collaborateur_id,
 ):
     """
@@ -42,7 +42,7 @@ def create_client(
                 nom_entreprise=nom_entreprise,
                 date_de_creation=date_de_creation,
                 derniere_maj_contact=derniere_maj_contact,
-                contact_commercial_chez_epic_events=contact_commercial_chez_epic_events,
+                contact_commercial_chez_epic_events=collaborateur.nom_utilisateur,
                 collaborateur_id=collaborateur_id
             )
             session.add(client)
@@ -145,3 +145,15 @@ def get_clients_filter_by_collaborateur(collaborateur_id):
     session=Session()
     client = session.query(Client).filter_by(collaborateur_id=collaborateur_id).all()
     return client
+
+def get_clients():
+    """
+    Récupère la liste complète des clients depuis la base de données.
+
+    Returns:
+        list: Liste des clients.
+    """
+    session = Session()
+    clients = session.query(Client).all()
+    session.close()
+    return clients

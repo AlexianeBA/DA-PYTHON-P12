@@ -6,6 +6,7 @@ from controllers.client_controller import (
     update_client,
     delete_client,
     get_clients_filtered,
+    get_clients
     
 )
 
@@ -34,31 +35,15 @@ from controllers.event_controller import (
     get_events_filter_by_date_passed,
     get_all_events
 )
-from view import (
-    display_menu_start,
-    get_username,
-    get_password,
-    display_welcome_message,
-    display_menu,
-    get_client_details,
-    get_contract_details,
+from views.menu_view import (display_menu, display_menu_start)
+from views.client_view import (display_clients_of_collaborateur_connected, display_list_of_clients, get_client_details,update_client_view)
+from views.collaborateur_view import (get_username, get_role, get_password, display_list_of_collaborateurs, update_collaborateur_view)
+from views.contract_view import (get_contract_details,update_contract_view, display_list_of_contracts,display_contracts_of_collaborateur_connected)
+from views.event_view import (get_event_details,update_event_view, display_list_of_events, display_events_passed, display_events_future, display_events_of_collaborateur_connected)
+from views.main_view import (
     display_success_message,
     display_error_message,
-    get_role,
-    get_event_details,
-    update_client_view,
-    update_contract_view,
-    update_event_view,
-    update_collaborateur_view,
-    display_list_of_clients,
-    display_list_of_collaborateurs,
-    display_list_of_contracts,
-    display_list_of_events,
-    display_contracts_of_collaborateur_connected,
-    display_events_of_collaborateur_connected,
-    display_clients_of_collaborateur_connected,
-    display_events_passed,
-    display_events_future
+    display_welcome_message
 )
 sentry_sdk.init(
     dsn="https://10f5a086eadb50756921d93e4c02e773@o4506824189739008.ingest.sentry.io/4506824191377408",
@@ -201,14 +186,15 @@ def main():
                     elif action == "6":
                         collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
                         if collaborateur_role == "gestion":
-                            contract_details = get_contract_details()
+                            clients=get_clients()
+                            display_list_of_clients(clients)
+                            client_id = input("Entrez l'identifiant du client : ")
                             try:
+                                contract_details = get_contract_details(client_id)
                                 create_contract(*contract_details)
                                 display_success_message("Contrat créé avec succès !")
                             except Exception as e:
-                                display_error_message(
-                                    f"Erreur lors de l'ajout du contrat : {e}"
-                                )
+                                display_error_message(f"Erreur lors de l'ajout du contrat : {e}")
                         else:
                             display_error_message("Vous devez être un gestionnaire pour créer un contrat.")
                     elif action == "7":

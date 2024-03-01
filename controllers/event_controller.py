@@ -1,5 +1,5 @@
 from datetime import datetime
-from models.models import Events
+from models.event import Events
 from database.db_config import Session
 
 
