@@ -49,7 +49,6 @@ CREATE INDEX idx_client_name ON client (nom_complet);
 CREATE TABLE events(
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     contract_id INTEGER NOT NULL, 
-    FOREIGN KEY (contract_id) REFERENCES contract (id), 
     client_name VARCHAR(256) NOT NULL, 
     FOREIGN KEY (client_name) REFERENCES client (nom_complet), 
     date_debut DATE NOT NULL, 
@@ -59,14 +58,25 @@ CREATE TABLE events(
     participants INTEGER, 
     notes VARCHAR(2048) 
 );
+ALTER TABLE events
+
+
+
 ALTER TABLE events ADD COLUMN collaborateur_id INT;
 SHOW COLUMNS FROM events;
+
 
 INSERT INTO events (`contract_id`, `client_name`, `date_debut`, `date_fin`, `contact_support`, `lieu`, `participants`, `notes`)
 VALUES (1, 'Kevin Casez', '2023-06-04', '2026-06-05', 'Kate Hastroff', '53 Rue du Château, 41120 Candé-sur-Beuvron, France', '75', 'Weeding starts at 3PM, by the river. Catering is organized, reception starts at 5PM. Kate needs to organize the DJ for after party.');
 SELECT * FROM events;
 SHOW COLUMNS FROM client;
-SELECT * FROM client;
+SELECT * FROM events;
+ALTER TABLE contract
+ADD CONSTRAINT fk_client_name
+FOREIGN KEY (client_name)
+REFERENCES client(nom_complet)
+ON UPDATE CASCADE;
+
 ALTER TABLE contract
 ADD CONSTRAINT fk_client_name
 FOREIGN KEY (client_name)
@@ -80,7 +90,11 @@ CREATE TABLE collaborateurs(id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, nom_
 
 ALTER TABLE collaborateurs
 MODIFY COLUMN mot_de_passe VARCHAR(64) NOT NULL;
-SHOW COLUMNS FROM collaborateurs;
+
+
+
+
+
 
 ALTER TABLE collaborateurs
 ADD COLUMN is_connected BOOLEAN DEFAULT FALSE;
