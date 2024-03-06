@@ -258,7 +258,7 @@ def handle_menu_options(nom_utilisateur):
                 nom_utilisateur
             )
             if collaborateur_role == "gestion" or collaborateur_role == "commercial":
-                display_contracts_of_collaborateur_connected()
+                display_contracts_of_collaborateur_connected(nom_utilisateur)
                 contract_id = input(
                     "Entrez l'ID du contrat que vous souhaitez mettre à jour :"
                 )
@@ -281,7 +281,7 @@ def handle_menu_options(nom_utilisateur):
                 nom_utilisateur
             )
             if collaborateur_role == "gestion":
-                display_contracts_of_collaborateur_connected()
+                display_contracts_of_collaborateur_connected(nom_utilisateur)
                 contract_id = input(
                     "Entrez l'ID du contrat que vous souhaitez supprimer : "
                 )
