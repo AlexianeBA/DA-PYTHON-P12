@@ -257,7 +257,7 @@ def handle_menu_options(nom_utilisateur):
             collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
                 nom_utilisateur
             )
-            if collaborateur_role == "gestion" or "commercial":
+            if collaborateur_role == "gestion" or collaborateur_role == "commercial":
                 display_contracts_of_collaborateur_connected()
                 contract_id = input(
                     "Entrez l'ID du contrat que vous souhaitez mettre à jour :"
