@@ -124,7 +124,7 @@ def display_menu() -> str:
     return Prompt.ask("Entrez votre choix ")
 
 
-def handle_menu_options():
+def handle_menu_options(nom_utilisateur):
     while True:
         action = display_menu()
         if action == "1":
@@ -146,15 +146,15 @@ def handle_menu_options():
             else:
                 display_error_message("Utilisateur non trouvé.")
         elif action == "2":
-            collaborateur_id = input(
-                "Entrez l'ID du collaborateur que vous souhaitez supprimer : "
-            )
+            get_collaborateur_id_connected(nom_utilisateur)
+            print(nom_utilisateur)
+
             confirm = input(
-                "Êtes-vous sûr de vouloir supprimer ce collaborateur ? (oui/non) : "
+                "Êtes-vous sûr de vouloir supprimer votre compte utilisateur? (oui/non) : "
             )
             if confirm.lower() == "oui":
                 try:
-                    delete_collaborateur(collaborateur_id)
+                    delete_collaborateur(nom_utilisateur)
                     display_success_message("Collaborateur supprimé avec succès !")
                 except:
                     display_error_message(
@@ -163,7 +163,9 @@ def handle_menu_options():
             else:
                 display_error_message("Suppression annulée.")
         elif action == "3":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             try:
                 if (
                     collaborateur_id and collaborateur_role == "commercial"
@@ -181,9 +183,11 @@ def handle_menu_options():
             except Exception as e:
                 display_error_message(f"Erreur lors de l'ajout du client : {str(e)}")
         elif action == "4":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             if collaborateur_role == "commercial":
-                display_clients_of_collaborateur_connected()
+                display_clients_of_collaborateur_connected(nom_utilisateur)
                 client_id = input(
                     "Entrez l'ID du client que vous souhaitez mettre à jour : "
                 )
@@ -206,9 +210,11 @@ def handle_menu_options():
                     "Vous devez être un commercial pour modifier un client."
                 )
         elif action == "5":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             if collaborateur_role == "commercial":
-                display_clients_of_collaborateur_connected()
+                display_clients_of_collaborateur_connected(nom_utilisateur)
                 client_id = input(
                     "Entrez l'ID du client que vous souhaitez supprimer : "
                 )
@@ -230,7 +236,9 @@ def handle_menu_options():
                     "Vous devez être un commercial pour supprimer un client."
                 )
         elif action == "6":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             if collaborateur_role == "gestion":
                 clients = get_clients()
                 display_list_of_clients(clients)
@@ -246,7 +254,9 @@ def handle_menu_options():
                     "Vous devez être un gestionnaire pour créer un contrat."
                 )
         elif action == "7":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             if collaborateur_role == "gestion" or "commercial":
                 display_contracts_of_collaborateur_connected()
                 contract_id = input(
@@ -267,7 +277,9 @@ def handle_menu_options():
                     "Vous devez être un gestionnaire ou un commercial pour modifier un contrat."
                 )
         elif action == "8":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             if collaborateur_role == "gestion":
                 display_contracts_of_collaborateur_connected()
                 contract_id = input(
@@ -291,7 +303,9 @@ def handle_menu_options():
                     "Vous devez être un gestionnaire pour supprimer un contrat."
                 )
         elif action == "9":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             if collaborateur_role == "commercial":
                 contracts = get_all_contracts()
                 display_list_of_contracts(contracts)
@@ -307,7 +321,9 @@ def handle_menu_options():
                     "Vous devez être un commercial pour créer un évenement."
                 )
         elif action == "10":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             if collaborateur_role == "support":
                 events = get_all_events()
                 display_list_of_events(events)
@@ -329,7 +345,9 @@ def handle_menu_options():
                     "Vous devez être un membre du département support pour modifier un évenement."
                 )
         elif action == "11":
-            collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+            collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+                nom_utilisateur
+            )
             if collaborateur_role == "support":
                 events = get_all_events()
                 display_list_of_events(events)

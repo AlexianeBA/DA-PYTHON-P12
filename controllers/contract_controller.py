@@ -1,4 +1,3 @@
-
 from typing import Dict
 from models.contract import Contract
 from database.db_config import Session
@@ -13,7 +12,8 @@ def create_contract(
     montant_total: int,
     montant_restant_a_payer: int,
     statut_contrat: str,
-)-> Contract:
+    nom_utilisateur: str,
+) -> Contract:
     """
     Crée un nouveau contrat dans la base de données.
 
@@ -30,7 +30,7 @@ def create_contract(
         Contract: Le contrat créé.
     """
     client = get_client_by_id(client_id)
-    collaborateur_id = get_collaborateur_id_connected()
+    collaborateur_id = get_collaborateur_id_connected(nom_utilisateur)
     if client:
         session = Session()
         contract = Contract(
@@ -49,7 +49,7 @@ def create_contract(
         raise ValueError("Client non trouvé")
 
 
-def get_contract_by_id(contract_id: int)-> Contract:
+def get_contract_by_id(contract_id: int) -> Contract:
     """
     Récupère un contrat à partir de son identifiant.
 
@@ -65,7 +65,7 @@ def get_contract_by_id(contract_id: int)-> Contract:
     return contract
 
 
-def update_contract(contract_id: int, new_values: Dict[str, str])-> None:
+def update_contract(contract_id: int, new_values: Dict[str, str]) -> None:
     """
     Met à jour les informations d'un contrat.
 
@@ -94,7 +94,7 @@ def update_contract(contract_id: int, new_values: Dict[str, str])-> None:
         session.close()
 
 
-def delete_contract(contract_id: int)-> None:
+def delete_contract(contract_id: int) -> None:
     """
     Supprime un contrat de la base de données.
 
@@ -112,7 +112,7 @@ def delete_contract(contract_id: int)-> None:
     session.close()
 
 
-def get_contracts_filter_by_price()-> Contract:
+def get_contracts_filter_by_price() -> Contract:
     """
     Récupère tous les contrats filtrés par prix.
 
@@ -125,7 +125,7 @@ def get_contracts_filter_by_price()-> Contract:
     return contracts
 
 
-def get_contracts_filter_by_collaborateur(collaborateur_id: int)-> Contract:
+def get_contracts_filter_by_collaborateur(collaborateur_id: int) -> Contract:
     """
     Récupère tous les contrats associés à un collaborateur donné.
 
@@ -136,12 +136,14 @@ def get_contracts_filter_by_collaborateur(collaborateur_id: int)-> Contract:
         list: Une liste des contrats associés au collaborateur.
     """
     session = Session()
-    contracts = session.query(Contract).filter_by(collaborateur_id=collaborateur_id[0]).all()
+    contracts = (
+        session.query(Contract).filter_by(collaborateur_id=collaborateur_id[0]).all()
+    )
     session.close()
     return contracts
 
 
-def get_all_contracts()-> Contract:
+def get_all_contracts() -> Contract:
     """
     Récupère tous les contrats de la base de données.
 

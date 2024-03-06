@@ -15,16 +15,16 @@ from views.main_view import console
 import datetime
 
 
-def get_client_details() -> (
-    Tuple[str, str, str, str, datetime.date, datetime.date, int]
-):
+def get_client_details(
+    nom_utilisateur,
+) -> Tuple[str, str, str, str, datetime.date, datetime.date, int]:
     nom_complet = input("Entrez le nom complet du client : ")
     email = input("Entrez l'email du client : ")
     telephone = input("Entrez le numéro de téléphone du client : ")
     nom_entreprise = input("Entrez le nom de l'entreprise du client : ")
     date_de_creation = datetime.date.today()
     derniere_maj_contact = datetime.date.today()
-    collaborateur_id = get_collaborateur_id_connected()
+    collaborateur_id = get_collaborateur_id_connected(nom_utilisateur)
     return (
         nom_complet,
         email,
@@ -112,11 +112,13 @@ def display_list_of_clients(clients: List[Client]) -> None:
     console.print(table)
 
 
-def display_clients_of_collaborateur_connected() -> None:
+def display_clients_of_collaborateur_connected(nom_utilisateur) -> None:
     """
     Affiche les clients du collaborateur connecté.
     """
-    collaborateur_id, collaborateur_role = get_collaborateur_id_connected()
+    collaborateur_id, collaborateur_role = get_collaborateur_id_connected(
+        nom_utilisateur
+    )
     if collaborateur_id:
         clients = get_clients_filter_by_collaborateur(collaborateur_id)
         table = Table(show_header=True, header_style="bold cyan")

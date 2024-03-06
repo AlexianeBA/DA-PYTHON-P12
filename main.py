@@ -51,7 +51,7 @@ def main() -> None:
             user = authenticate_collaborateur(nom_utilisateur, password)
             if user:
                 display_welcome_message(nom_utilisateur)
-                handle_menu_options()
+                handle_menu_options(nom_utilisateur)
             else:
                 display_error_message("Adresse e-mail ou mot de passe incorrect.")
         elif choice == "3":

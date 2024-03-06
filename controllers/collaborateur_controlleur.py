@@ -122,7 +122,7 @@ def get_collaborateur_by_id(collaborateur_id: int) -> Collaborateur:
     return collaborateur
 
 
-def get_collaborateur_id_connected():
+def get_collaborateur_id_connected(nom_utilisateur):
     """
     Récupère l'identifiant et le rôle du collaborateur connecté.
 
@@ -131,7 +131,9 @@ def get_collaborateur_id_connected():
                ou (None, None) s'il n'y a aucun collaborateur connecté.
     """
     session = get_session()
-    collaborateur = session.query(Collaborateur).filter_by(is_connected=True).first()
+    collaborateur = (
+        session.query(Collaborateur).filter_by(nom_utilisateur=nom_utilisateur).first()
+    )
     session.close()
     if collaborateur:
         return collaborateur.id, collaborateur.role
@@ -201,7 +203,7 @@ def get_all_commercial():
         return collaborateur
 
 
-def delete_collaborateur(collaborateur_id: int) -> None:
+def delete_collaborateur(nom_utilisateur: int) -> None:
     """
     Supprime un collaborateur de la base de données.
 
@@ -212,7 +214,9 @@ def delete_collaborateur(collaborateur_id: int) -> None:
         None
     """
     session = Session()
-    collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
+    collaborateur = (
+        session.query(Collaborateur).filter_by(nom_utilisateur=nom_utilisateur).first()
+    )
     if collaborateur:
         session.delete(collaborateur)
         session.commit()

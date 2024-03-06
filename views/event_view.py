@@ -1,6 +1,13 @@
 from typing import Any, Dict, List, Tuple
-from controllers.collaborateur_controlleur import get_only_id_collaborateur,get_collaborateur_id_connected
-from controllers.event_controller import get_events_filter_by_collaborateur, get_events_filter_by_date_passed, get_events_filter_by_date_future
+from controllers.collaborateur_controlleur import (
+    get_only_id_collaborateur,
+    get_collaborateur_id_connected,
+)
+from controllers.event_controller import (
+    get_events_filter_by_collaborateur,
+    get_events_filter_by_date_passed,
+    get_events_filter_by_date_future,
+)
 import datetime
 from rich.table import Table
 from models.event import Events
@@ -17,7 +24,7 @@ def get_event_details() -> Tuple[str, str, int, str, str, str, str, str]:
     """
     contract_id = input("Entrez l'identifiant contrat: ")
     client_name = input("Entrez le nom du client associé au contrat: ")
-    
+
     date_debut = input("Entrez la date du début de l'évènement: ")
     date_fin = input("Entrez la date de fin de l'évènement: ")
     contact_support = input("Entrez le nom du contact support: ")
@@ -29,7 +36,6 @@ def get_event_details() -> Tuple[str, str, int, str, str, str, str, str]:
     return (
         contract_id,
         client_name,
-        
         date_debut,
         date_fin,
         contact_support,
@@ -38,6 +44,7 @@ def get_event_details() -> Tuple[str, str, int, str, str, str, str, str]:
         notes,
         collaborateur_id,
     )
+
 
 def update_event_view(event_id: int, current_values: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -88,6 +95,7 @@ def update_event_view(event_id: int, current_values: Dict[str, Any]) -> Dict[str
     )
     return new_values
 
+
 def display_list_of_events(events: List[Dict[str, Any]]) -> List[Events]:
     """
     Affiche la liste des événements.
@@ -121,11 +129,12 @@ def display_list_of_events(events: List[Dict[str, Any]]) -> List[Events]:
     print("Voici la liste des évenement: ")
     console.print(table)
 
-def display_events_of_collaborateur_connected()-> List[Events]:
+
+def display_events_of_collaborateur_connected(nom_utilisateur) -> List[Events]:
     """
     Affiche les événements du collaborateur connecté.
     """
-    collaborateur_id = get_collaborateur_id_connected()
+    collaborateur_id = get_collaborateur_id_connected(nom_utilisateur)
     events = get_events_filter_by_collaborateur(collaborateur_id)
     table = Table(show_header=True, header_style="bold cyan")
     table.add_column("ID de l'évenement")
@@ -142,8 +151,8 @@ def display_events_of_collaborateur_connected()-> List[Events]:
             str(event.id),
             str(event.contract_id),
             str(event.collaborateur_id),
-            event.date_debut.strftime('%Y-%m-%d %H:%M:%S'),
-            event.date_fin.strftime('%Y-%m-%d %H:%M:%S'),
+            event.date_debut.strftime("%Y-%m-%d %H:%M:%S"),
+            event.date_fin.strftime("%Y-%m-%d %H:%M:%S"),
             event.contact_support,
             event.lieu,
             str(event.participants),
@@ -153,8 +162,7 @@ def display_events_of_collaborateur_connected()-> List[Events]:
     console.print(table)
 
 
-
-def display_events_passed()-> List[Events]:
+def display_events_passed() -> List[Events]:
     """
     Affiche les événements passés.
     """
@@ -174,12 +182,12 @@ def display_events_passed()-> List[Events]:
             str(event.id),
             str(event.contract_id),
             str(event.collaborateur_id),
-            event.date_debut.strftime('%Y-%m-%d %H:%M:%S'),  
-            event.date_fin.strftime('%Y-%m-%d %H:%M:%S'),   
+            event.date_debut.strftime("%Y-%m-%d %H:%M:%S"),
+            event.date_fin.strftime("%Y-%m-%d %H:%M:%S"),
             event.contact_support,
             event.lieu,
             str(event.participants),
-            str(event.notes)
+            str(event.notes),
         )
     print("Liste de vos événements passés: ")
     console.print(table)
@@ -205,12 +213,12 @@ def display_events_future():
             str(event.id),
             str(event.client_name),
             str(event.collaborateur_id),
-            event.date_debut.strftime('%Y-%m-%d %H:%M:%S'),  
-            event.date_fin.strftime('%Y-%m-%d %H:%M:%S'),   
+            event.date_debut.strftime("%Y-%m-%d %H:%M:%S"),
+            event.date_fin.strftime("%Y-%m-%d %H:%M:%S"),
             event.contact_support,
             event.lieu,
             str(event.participants),
-            str(event.notes)
+            str(event.notes),
         )
     print("Liste de vos événements à venir: ")
     console.print(table)
