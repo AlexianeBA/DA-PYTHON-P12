@@ -25,6 +25,7 @@ def display_error_message(message: str) -> None:
 
 console = Console()
 
+
 def display_welcome_message(nom_utilisateur: str) -> None:
     """
     Affiche un message de bienvenue personnalisé.

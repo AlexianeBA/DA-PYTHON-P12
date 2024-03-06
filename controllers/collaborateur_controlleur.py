@@ -8,7 +8,7 @@ from models.client import Client
 from typing import Dict, Optional, Tuple
 
 
-def hash_password(password: str)-> Tuple[str,str]:
+def hash_password(password: str) -> Tuple[str, str]:
     """
     Hash le mot de passe avec un sel aléatoire.
 
@@ -23,7 +23,9 @@ def hash_password(password: str)-> Tuple[str,str]:
     return hashed_password, salt
 
 
-def create_collaborateur(nom_utilisateur: str, mot_de_passe:str, role:str) -> Collaborateur:
+def create_collaborateur(
+    nom_utilisateur: str, mot_de_passe: str, role: str
+) -> Collaborateur:
     """
     Crée un nouveau collaborateur dans la base de données.
 
@@ -48,7 +50,8 @@ def create_collaborateur(nom_utilisateur: str, mot_de_passe:str, role:str) -> Co
     session.close()
     return collaborateur
 
-def get_support_name(collaborateur_id: int)-> str:
+
+def get_support_name(collaborateur_id: int) -> str:
     """
     Récupère le nom du support à partir de l'identifiant du collaborateur.
 
@@ -60,16 +63,19 @@ def get_support_name(collaborateur_id: int)-> str:
     """
     session = Session()
     collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
-    
+
     if collaborateur:
-        support_name = collaborateur.nom_utilisateur 
+        support_name = collaborateur.nom_utilisateur
         session.close()
         if support_name:
             return support_name
-    
+
     return "Support introuvable"
 
-def authenticate_collaborateur(nom_utilisateur: str, mot_de_passe: str)-> Collaborateur:
+
+def authenticate_collaborateur(
+    nom_utilisateur: str, mot_de_passe: str
+) -> Collaborateur:
     """
     Authentifie un collaborateur.
 
@@ -81,11 +87,14 @@ def authenticate_collaborateur(nom_utilisateur: str, mot_de_passe: str)-> Collab
         int: L'identifiant du collaborateur si l'authentification réussit, sinon None.
     """
     session = get_session()
-    collaborateur = session.query(Collaborateur).filter_by(nom_utilisateur=nom_utilisateur).first()
+    collaborateur = (
+        session.query(Collaborateur).filter_by(nom_utilisateur=nom_utilisateur).first()
+    )
     collaborateur_id = None
     if collaborateur:
-        hashed_password_input = hashlib.sha3_256((mot_de_passe + collaborateur.salt)\
-                                                 .encode()).hexdigest()
+        hashed_password_input = hashlib.sha3_256(
+            (mot_de_passe + collaborateur.salt).encode()
+        ).hexdigest()
         if hashed_password_input == collaborateur.mot_de_passe:
             collaborateur.is_connected = True
             session.commit()
@@ -97,7 +106,7 @@ def authenticate_collaborateur(nom_utilisateur: str, mot_de_passe: str)-> Collab
     return collaborateur_id
 
 
-def get_collaborateur_by_id(collaborateur_id: int)->Collaborateur:
+def get_collaborateur_by_id(collaborateur_id: int) -> Collaborateur:
     """
     Récupère un collaborateur à partir de son identifiant.
 
@@ -129,6 +138,7 @@ def get_collaborateur_id_connected():
     print("aucun collaborateur connecté")
     return None, None
 
+
 def get_only_id_collaborateur():
     session = get_session()
     collaborateur = session.query(Collaborateur).filter_by(is_connected=True).first()
@@ -138,7 +148,7 @@ def get_only_id_collaborateur():
     return None
 
 
-def update_collaborateur(collaborateur_id: int, new_values: Dict[str, str])-> None:
+def update_collaborateur(collaborateur_id: int, new_values: Dict[str, str]) -> None:
     """
     Met à jour les informations d'un collaborateur.
 
@@ -150,6 +160,7 @@ def update_collaborateur(collaborateur_id: int, new_values: Dict[str, str])-> No
     Returns:
         None
     """
+
     session = Session()
     collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
     if collaborateur:
@@ -158,7 +169,8 @@ def update_collaborateur(collaborateur_id: int, new_values: Dict[str, str])-> No
         session.commit()
     session.close()
 
-def get_collaborateur_name_by_id(collaborateur_id: int)-> str:
+
+def get_collaborateur_name_by_id(collaborateur_id: int) -> str:
     """
     Récupère le nom du collaborateur à partir de son ID.
 
@@ -168,31 +180,28 @@ def get_collaborateur_name_by_id(collaborateur_id: int)-> str:
     Returns:
         str: Le nom d'utilisateur du collaborateur.
     """
-    session = Session()  
+    session = Session()
     collaborateur = session.query(Collaborateur).filter_by(id=collaborateur_id).first()
-    session.close() 
+    session.close()
 
     if collaborateur:
-        return collaborateur.nom_utilisateur  
+        return collaborateur.nom_utilisateur
     else:
         return "Inconnu"
-    
+
 
 def get_all_commercial():
     """
     Affiche la liste de tous les commerciaux disponibles.
     """
     session = Session()
-    collaborateur = session.query(Collaborateur).filter_by(role='commercial').all()
+    collaborateur = session.query(Collaborateur).filter_by(role="commercial").all()
     session.close()
     if collaborateur:
         return collaborateur
-    print("Liste des commerciaux disponibles :")
 
 
-
-
-def delete_collaborateur(collaborateur_id: int)-> None:
+def delete_collaborateur(collaborateur_id: int) -> None:
     """
     Supprime un collaborateur de la base de données.
 
@@ -209,7 +218,8 @@ def delete_collaborateur(collaborateur_id: int)-> None:
         session.commit()
     session.close()
 
-def get_all_collaborateurs(nom_utilisateur: Optional[str] = None)-> Collaborateur:
+
+def get_all_collaborateurs(nom_utilisateur: Optional[str] = None) -> Collaborateur:
     """
     Récupère une liste de tous les collaborateurs ou filtrée par nom d'utilisateur.
 
@@ -228,7 +238,7 @@ def get_all_collaborateurs(nom_utilisateur: Optional[str] = None)-> Collaborateu
     return collaborateurs
 
 
-def get_collaborateurs_filtered(nom_utilisateur: Optional[str] = None)-> Collaborateur:
+def get_collaborateurs_filtered(nom_utilisateur: Optional[str] = None) -> Collaborateur:
     """
     Récupère une liste de collaborateurs filtrés par nom d'utilisateur.
 
@@ -242,8 +252,8 @@ def get_collaborateurs_filtered(nom_utilisateur: Optional[str] = None)-> Collabo
     query = session.query(Collaborateur)
 
     if nom_utilisateur:
-        query=query.filter(Collaborateur.nom_utilisateur== nom_utilisateur)
-    query=query.order_by(Collaborateur.nom_utilisateur)
+        query = query.filter(Collaborateur.nom_utilisateur == nom_utilisateur)
+    query = query.order_by(Collaborateur.nom_utilisateur)
     collaborateur = query.all()
     return collaborateur
 
@@ -261,5 +271,6 @@ def disconnection_collaborateur():
         collaborateur.is_connected = False
         session.commit()
         session.close()
-atexit.register(disconnection_collaborateur)
 
+
+atexit.register(disconnection_collaborateur)

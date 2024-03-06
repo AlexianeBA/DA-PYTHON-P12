@@ -5,7 +5,8 @@ from models.event import Events
 from database.db_config import Session
 from controllers.collaborateur_controlleur import get_collaborateur_by_id
 
-session=Session()
+session = Session()
+
 
 def create_event(
     contract_id: int,
@@ -16,8 +17,8 @@ def create_event(
     lieu: str,
     participants: int,
     notes: str,
-    collaborateur_id: int
-)-> Events:
+    collaborateur_id: int,
+) -> Events:
     """
     Crée un nouvel événement dans la base de données.
 
@@ -36,10 +37,6 @@ def create_event(
         Events: L'événement créé.
     """
     session = Session()
-    
-    # Pas besoin de récupérer le collaborateur_id ici, car il est déjà passé en argument
-    
-    # Pas besoin de récupérer le contact_support non plus, car il est déjà passé en argument
 
     event = Events(
         contract_id=contract_id,
@@ -50,7 +47,7 @@ def create_event(
         lieu=lieu,
         participants=participants,
         notes=notes,
-        collaborateur_id=collaborateur_id  # Utilisez directement l'identifiant du collaborateur passé en argument
+        collaborateur_id=collaborateur_id,
     )
     session.add(event)
     session.commit()
@@ -58,8 +55,7 @@ def create_event(
     return event
 
 
-
-def get_event_by_id(event_id: int)-> Events:
+def get_event_by_id(event_id: int) -> Events:
     """
     Récupère un événement à partir de son identifiant.
 
@@ -74,7 +70,7 @@ def get_event_by_id(event_id: int)-> Events:
     return event
 
 
-def update_event(event_id: int, new_values: Dict[str, str])-> None:
+def update_event(event_id: int, new_values: Dict[str, str]) -> None:
     """
     Met à jour les informations d'un événement.
 
@@ -94,7 +90,7 @@ def update_event(event_id: int, new_values: Dict[str, str])-> None:
     session.close()
 
 
-def delete_event(event_id: int)-> None:
+def delete_event(event_id: int) -> None:
     """
     Supprime un événement de la base de données.
 
@@ -110,7 +106,8 @@ def delete_event(event_id: int)-> None:
         session.commit()
     session.close()
 
-def get_events_filter_by_collaborateur(collaborateur_id: int)-> Events:
+
+def get_events_filter_by_collaborateur(collaborateur_id: int) -> Events:
     """
     Récupère tous les événements associés à un collaborateur donné.
 
@@ -124,7 +121,7 @@ def get_events_filter_by_collaborateur(collaborateur_id: int)-> Events:
     return events
 
 
-def get_all_events()-> Events:
+def get_all_events() -> Events:
     """
     Récupère tous les événements de la base de données.
 
@@ -134,7 +131,8 @@ def get_all_events()-> Events:
     events = session.query(Events).all()
     return events
 
-def get_events_filter_by_date(date_debut: int=None)-> Events:
+
+def get_events_filter_by_date(date_debut: int = None) -> Events:
     """
     Récupère tous les événements filtrés par date de début.
 
@@ -147,13 +145,13 @@ def get_events_filter_by_date(date_debut: int=None)-> Events:
     query = session.query(Events)
 
     if date_debut:
-        query= query.filter(Events.date_debut==date_debut)
+        query = query.filter(Events.date_debut == date_debut)
     query = query.order_by(Events.date_debut)
     event = query.all()
     return event
 
 
-def get_events_filter_by_date_passed()-> Events:
+def get_events_filter_by_date_passed() -> Events:
     """
     Récupère tous les événements passés.
 
@@ -161,12 +159,16 @@ def get_events_filter_by_date_passed()-> Events:
         list: Une liste des événements passés.
     """
     current_date = datetime.now()
-    past_events = session.query(Events).filter(Events.date_debut < current_date)\
-                        .order_by(Events.date_debut)\
-                        .all()
+    past_events = (
+        session.query(Events)
+        .filter(Events.date_debut < current_date)
+        .order_by(Events.date_debut)
+        .all()
+    )
     return past_events
 
-def get_events_filter_by_date_future()-> Events:
+
+def get_events_filter_by_date_future() -> Events:
     """
     Récupère tous les événements futurs.
 
@@ -174,7 +176,10 @@ def get_events_filter_by_date_future()-> Events:
         list: Une liste des événements futurs.
     """
     current_date = datetime.now()
-    future_events = session.query(Events)\
-                            .filter(Events.date_debut >= current_date)\
-                            .order_by(Events.date_debut).all()
+    future_events = (
+        session.query(Events)
+        .filter(Events.date_debut >= current_date)
+        .order_by(Events.date_debut)
+        .all()
+    )
     return future_events

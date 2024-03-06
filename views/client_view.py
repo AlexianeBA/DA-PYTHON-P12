@@ -1,17 +1,23 @@
-
 from typing import Any, Dict, List, Tuple
-from controllers.client_controller import get_clients_filter_by_collaborateur, get_client_by_id
+from controllers.client_controller import (
+    get_clients_filter_by_collaborateur,
+    get_client_by_id,
+)
 from datetime import datetime
 from rich.table import Table
-from controllers.collaborateur_controlleur import get_collaborateur_id_connected, get_collaborateur_name_by_id
+from controllers.collaborateur_controlleur import (
+    get_collaborateur_id_connected,
+    get_collaborateur_name_by_id,
+)
 from models.client import Client
 from models.collaborateur import Collaborateur
 from views.main_view import console
 import datetime
 
 
-def get_client_details()-> Tuple[str, str, str, str, datetime.date, datetime.date, int]:
-    print("Getting client details...")
+def get_client_details() -> (
+    Tuple[str, str, str, str, datetime.date, datetime.date, int]
+):
     nom_complet = input("Entrez le nom complet du client : ")
     email = input("Entrez l'email du client : ")
     telephone = input("Entrez le numéro de téléphone du client : ")
@@ -19,7 +25,6 @@ def get_client_details()-> Tuple[str, str, str, str, datetime.date, datetime.dat
     date_de_creation = datetime.date.today()
     derniere_maj_contact = datetime.date.today()
     collaborateur_id = get_collaborateur_id_connected()
-    print("Client details retrieved successfully:", nom_complet, email, telephone, nom_entreprise)
     return (
         nom_complet,
         email,
@@ -27,8 +32,9 @@ def get_client_details()-> Tuple[str, str, str, str, datetime.date, datetime.dat
         nom_entreprise,
         date_de_creation,
         derniere_maj_contact,
-        collaborateur_id
+        collaborateur_id,
     )
+
 
 def update_client_view(client_id: int, current_values: Any) -> Dict[str, str]:
     """
@@ -65,7 +71,7 @@ def update_client_view(client_id: int, current_values: Any) -> Dict[str, str]:
         )
         or current_values.nom_entreprise
     )
-    
+
     return new_values
 
 
@@ -84,11 +90,13 @@ def display_list_of_clients(clients: List[Client]) -> None:
     table.add_column("Nom de l'entreprise")
     table.add_column("Date de création")
     table.add_column("Dernière mise à jour du contact")
-    table.add_column("ID du commercial")
     table.add_column("Nom du commercial")
+    table.add_column("ID du commercial")
 
     for client in clients:
-        nom_utilisateur_commercial = get_collaborateur_name_by_id(client.collaborateur_id)
+        nom_utilisateur_commercial = get_collaborateur_name_by_id(
+            client.collaborateur_id
+        )
         table.add_row(
             str(client.id),
             client.nom_complet,
@@ -97,15 +105,14 @@ def display_list_of_clients(clients: List[Client]) -> None:
             client.nom_entreprise,
             str(client.date_de_creation),
             str(client.derniere_maj_contact),
+            nom_utilisateur_commercial,
             str(client.collaborateur_id),
-            nom_utilisateur_commercial
-            
-    
         )
     print("Voici la liste des clients chez Epicevents: ")
     console.print(table)
 
-def display_clients_of_collaborateur_connected()-> None:
+
+def display_clients_of_collaborateur_connected() -> None:
     """
     Affiche les clients du collaborateur connecté.
     """
@@ -123,16 +130,19 @@ def display_clients_of_collaborateur_connected()-> None:
         table.add_column("Nom du contact commercial chez Epicevents")
         table.add_column("ID du commercial")
         for client in clients:
+            nom_utilisateur_commercial = get_collaborateur_name_by_id(
+                client.collaborateur_id
+            )
             table.add_row(
                 str(client.id),
                 client.nom_complet,
                 client.email,
                 str(client.telephone),
                 client.nom_entreprise,
-                client.date_de_creation.strftime("%Y-%m-%d"), 
+                client.date_de_creation.strftime("%Y-%m-%d"),
                 client.derniere_maj_contact.strftime("%Y-%m-%d"),
-                
-                str(client.collaborateur_id)  
+                nom_utilisateur_commercial,
+                str(client.collaborateur_id),
             )
         print("Liste de vos clients: ")
         console.print(table)

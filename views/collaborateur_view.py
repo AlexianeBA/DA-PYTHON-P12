@@ -5,7 +5,9 @@ from rich.table import Table
 from models.collaborateur import Collaborateur
 from views.main_view import console
 from controllers.collaborateur_controlleur import get_all_commercial
-def get_username()-> str:
+
+
+def get_username() -> str:
     """
     Demande et renvoie le nom d'utilisateur entré par l'utilisateur.
 
@@ -15,7 +17,7 @@ def get_username()-> str:
     return input("Nom d'utilisateur : ")
 
 
-def get_password()-> str:
+def get_password() -> str:
     """
     Demande et renvoie le mot de passe entré par l'utilisateur (avec masquage).
 
@@ -25,7 +27,7 @@ def get_password()-> str:
     return getpass.getpass("Mot de passe : ")
 
 
-def get_role()-> str:
+def get_role() -> str:
     """
     Demande et renvoie le rôle défini par l'utilisateur.
 
@@ -35,11 +37,9 @@ def get_role()-> str:
     return input("Définissez votre rôle: commercial, gestion ou support: ")
 
 
-
-
-
-
-def update_collaborateur_view(collaborateur_id: int, current_values: Any) -> Dict[str, str]:
+def update_collaborateur_view(
+    collaborateur_id: int, current_values: Any
+) -> Dict[str, str]:
     """
     Affiche la vue de mise à jour du collaborateur.
 
@@ -68,6 +68,7 @@ def update_collaborateur_view(collaborateur_id: int, current_values: Any) -> Dic
     )
     return new_values
 
+
 def display_list_of_collaborateurs(collaborateurs: List[Collaborateur]) -> None:
     """
     Affiche la liste des collaborateurs.
@@ -76,6 +77,7 @@ def display_list_of_collaborateurs(collaborateurs: List[Collaborateur]) -> None:
         collaborateurs (list): La liste des collaborateurs à afficher.
     """
     table = Table(show_header=True, header_style="bold cyan")
+    table.add_column("ID utilisateur")
     table.add_column("Nom d'utilisateur")
     table.add_column("Rôle")
 
@@ -88,7 +90,8 @@ def display_list_of_collaborateurs(collaborateurs: List[Collaborateur]) -> None:
     print("Voici la liste des collaborateurs chez Epicevents: ")
     console.print(table)
 
-def display_list_of_commercial()-> None:
+
+def display_list_of_commercial() -> None:
     """
     Affiche la liste de tous les commerciaux disponibles.
     """
@@ -102,6 +105,6 @@ def display_list_of_commercial()-> None:
             str(commercial.id),
             commercial.nom_utilisateur,
         )
-    
+
     print("Voici la liste des commerciaux chez Epicevents :")
     console.print(table)
